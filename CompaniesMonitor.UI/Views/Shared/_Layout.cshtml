@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MSGCompaniesMonitor</title>
+
+
+    
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MSGCompaniesMonitor.styles.css" asp-append-version="true" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- toastr -->
+    <!-- CSS file -->
+
+
+    
+    <!-- JavaScript file -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- toastr -->
+
+    <!-- Add this script reference before other scripts -->
+ 
+
+    <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="~/js/script.js"></script>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <!-- CSS files -->
+    <link href="~/css/tabler.min.css?1685973381" rel="stylesheet"/>
+    <link href="~/css/tabler-flags.min.css?1685973381" rel="stylesheet"/>
+    <link href="~/css/tabler-payments.min.css?1685973381" rel="stylesheet"/>
+    <link href="~/css/tabler-vendors.min.css?1685973381" rel="stylesheet"/>
+    <link href="~/css/demo.min.css?1685973381" rel="stylesheet"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+</head>
+<body>
+    <script src="./dist/js/demo-theme.min.js?1685973381"></script>
+
+
+    <div class="page">
+        @await Html.PartialAsync("_Header")
+        <div class="page-wrapper">
+                @RenderBody()
+        </div>
+        @await Html.PartialAsync("_Footer")
+    </div>
+
+
+    <!-- Libs JS -->
+    <script src="~/dist/libs/apexcharts/dist/apexcharts.min.js?1685973381" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1685973381" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/maps/world.js?1685973381" defer></script>
+    <script src="~/dist/libs/jsvectormap/dist/maps/world-merc.js?1685973381" defer></script>
+    <!-- Tabler Core -->
+    <script src="~/js/tabler.min.js?1685973381" defer></script>
+    <script src="~/js/demo.min.js?1685973381" defer></script>
+    <script src="~/js/main.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

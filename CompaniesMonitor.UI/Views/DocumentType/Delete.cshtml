@@ -1,0 +1,96 @@
+﻿@model MSGCompaniesMonitor.ViewModels.DocumentTypeDeleteViewModel
+@{
+    ViewData["Title"] = "Delete Document Type";
+}
+<!-- Your view content here -->
+@if (Model.ShowToast != null && (bool)Model.ShowToast)
+{
+    @foreach (var error in Model.ToastMessage)
+    {
+        <script>
+            toastr.options = {
+                "positionClass": "toast-top-left",
+                "timeOut": "3000", // Toast will disappear after 3 seconds
+            }
+
+            toastr.error("@error");
+
+        </script>
+
+    }
+}
+
+<!-- Rest of your view content -->
+
+<form asp-controller="DocumentType" asp-action="Delete" method="post" enctype="multipart/form-data">
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div style="text-align: center;">
+                        <h4 class="card-title">Documents type</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-5">
+                            <div class="col-xl-4"></div>
+                            <div class="col-xl-4">
+                                <fieldset class="form-fieldset">
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Company">Company</label>
+                                        <select disabled class="form-select" asp-for="Company" asp-items="Model.Companies">
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Document">Document</label>
+                                        <select disabled class="form-select" asp-for="Document" asp-items="Model.Documents">
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Amount">Amount</label>
+                                        <input class="form-control" asp-for="Amount">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="StartDate">Start Date</label>
+                                        <input readonly class="form-control" asp-for="StartDate">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="ExpireyDate">Expirey Date</label>
+                                        <input readonly class="form-control" asp-for="ExpireyDate">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="File">File</label>
+                                        <input readonly class="form-control" asp-for="File">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Selected File:</label>
+                                        <a href="~/Documents/@Model.FileName">@Model.FileName</a>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" asp-for="Note">Note</label>
+                                        <textarea readonly class="form-control" asp-for="Note" rows="6"></textarea>
+                                    </div>
+
+                                    <div class="card-footer text-end mt-4">
+                                        <div class="d-flex">
+                                            <a asp-controller="DocumentType" asp-action="index" class="btn btn-link">Cancel</a>
+                                            <button  type="submit" class="btn btn-danger ms-auto">Delete</button>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
