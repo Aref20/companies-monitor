@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,7 +7,7 @@ namespace MSGCompaniesMonitor.Models
 {
     public class DocumentType
     {
-
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -27,11 +28,7 @@ namespace MSGCompaniesMonitor.Models
         //Navigation property to represent the related Company
         public Company? Company { get; set; }
 
-        [NotMapped]
-        [Required(ErrorMessage = "Please select file")]
-        public required IFormFile File { get; set; }
-        public string? FileName { get; set; }
-
+        public IEnumerable<UploadedFile> Files { get; set; }
 
         //Foreign key to represent the one-to-many relationship
 

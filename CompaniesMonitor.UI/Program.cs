@@ -10,8 +10,7 @@ using MSGCompaniesMonitor.Jobs;
 using Quartz.Impl;
 using Quartz.Spi;
 using Quartz;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +20,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
-        , b => b.MigrationsAssembly("MSGCompaniesMonitor") 
+        , b => b.MigrationsAssembly("CompaniesMonitor.Infrastructure") 
         ),ServiceLifetime.Scoped);
 
 

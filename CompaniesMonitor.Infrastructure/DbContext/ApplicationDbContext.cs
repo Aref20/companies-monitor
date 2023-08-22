@@ -22,7 +22,7 @@ namespace MSGCompaniesMonitor.Data
 
         public DbSet<CompanyPartner> CompaniesPartner { get; set; }
 
-        
+        public DbSet<UploadedFile> UploadedFiles { get; set; }
 
 
 
@@ -34,6 +34,11 @@ namespace MSGCompaniesMonitor.Data
             .WithOne(b => b.Document)
             .HasForeignKey(b => b.DocumentId);
 
+
+            modelBuilder.Entity<DocumentType>()
+            .HasMany(a => a.Files)
+            .WithOne(b => b.DocumentType)
+            .HasForeignKey(b => b.DocumentTypeId);
             /*  modelBuilder.Entity<Partner>()
                    .Property(e => e.Percentage)
                    .HasComputedColumnSql("[SharedJD]/[Company.CapitalJD]");*/

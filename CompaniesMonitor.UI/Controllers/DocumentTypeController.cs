@@ -114,7 +114,7 @@ namespace MSGCompaniesMonitor.Controllers
 
             var viewModel = new DocumentTypeCreateViewModel
             {
-                File = null,
+                Files = null,
                 Documents = await _documentsTypeService.GetAllDocumentsAsync(),
                 Companies = await _documentsTypeService.GetAllCompaniesAsync(),
                 ShowToast = false
@@ -126,10 +126,10 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var viewModel = new DocumentTypeEditViewModel
             {
-                File = null,
+                Files = null,
                 DocumentType = documentType,
 
-                FileName = documentType.FileName,
+                //FileName = documentType.FileName,
                 Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
                 Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
             };
@@ -140,9 +140,9 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var viewModel = new DocumentTypeDeleteViewModel
             {
-                File = null,
+                Files = null,
                 DocumentType = documentType,
-                FileName = documentType.FileName,
+                //FileName = documentType.FileNames,
                 Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
                 Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
             };
