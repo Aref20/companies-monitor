@@ -38,45 +38,63 @@
                                 <fieldset class="form-fieldset">
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="Company">Company</label>
-                                        <select class="form-select" asp-for="Company" asp-items="Model.Companies">
+                                        <label class="form-label required" asp-for="documentType.Company">Company</label>
+                                        <select class="form-select" asp-for="documentType.Company" asp-items="Model.Companies">
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="Document">Document</label>
-                                        <select class="form-select" asp-for="Document" asp-items="Model.Documents">
+                                        <label class="form-label required" asp-for="documentType.Document">Document</label>
+                                        <select class="form-select" asp-for="documentType.Document" asp-items="Model.Documents">
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="Amount">Amount</label>
-                                        <input class="form-control" asp-for="Amount">
+                                        <label class="form-label required" asp-for="documentType.Amount">Amount</label>
+                                        <input class="form-control" asp-for="documentType.Amount">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="StartDate">Start Date</label>
-                                        <input class="form-control" asp-for=@Model.DocumentType.StartDate>
+                                        <label class="form-label required" asp-for="documentType.StartDate">Start Date</label>
+                                        <input class="form-control" asp-for=documentType.StartDate>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="ExpireyDate">Expirey Date</label>
-                                        <input class="form-control" asp-for=@Model.DocumentType.ExpireyDate>
+                                        <label class="form-label required" asp-for="documentType.ExpireyDate">Expirey Date</label>
+                                        <input class="form-control" asp-for=documentType.ExpireyDate>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="Files">File</label>
-                                        <input class="form-control" asp-for="Files" multiple>
+                                        <label class="form-label required" asp-for="documentType.Files">File</label>
+                                        <input type="file" class="form-control" asp-for="documentType.Files" multiple>
                                     </div>
+
 
                                         <div class="mb-3">
-                                            <label class="form-label">Selected File:</label>
-                                        <a href="~/Documents/@Model.FileName">@Model.FileName</a>
+                                         <label class="form-label">Selected File:</label>
+                                        @foreach (var file in Model.uploadedFiles)
+                                        {
+                                            <a href="~/Documents/@file.FileName">@file.FileName</a>
+                                            <a href="@Url.Action("DeleteFile", "DocumentType", new { id = file.Id })" class="link-red">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash link-red" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M4 7l16 0"></path>
+                                                    <path d="M10 11l0 6"></path>
+                                                    <path d="M14 11l0 6"></path>
+                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                </svg>
+                                            </a>
+
+                                            <br />
+
+                                        }
                                         </div>
+                                    
 
                                     <div class="mb-3">
-                                        <label class="form-label" asp-for="Note">Note</label>
-                                        <textarea class="form-control" asp-for="Note" rows="6"></textarea>
+                                        <label class="form-label" asp-for="documentType.Note">Note</label>
+                                        <textarea class="form-control" asp-for="documentType.Note" rows="6"></textarea>
                                     </div>
 
                                     <div class="card-footer text-end mt-4">

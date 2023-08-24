@@ -1,11 +1,11 @@
-﻿@model Company
+﻿@model MSGCompaniesMonitor.ViewModels.CompanyDeleteViewModel   
 @{
     ViewData["Title"] = "Delete Company";
 }
 <!-- Your view content here -->
-@if (ViewBag.ShowToast != null && (bool)ViewBag.ShowToast)
+@if (TempData["ShowToast"] != null && (bool)TempData["ShowToast"])
 {
-    @foreach (var error in ViewBag.ToastMessage)
+    @foreach (var error in (List<string>)TempData["ToastMessage"])
     {
         <script>
             toastr.options = {
@@ -16,7 +16,6 @@
             toastr.error("@error");
 
         </script>
-
     }
 }
 
@@ -48,7 +47,7 @@
 
                                         <div class="mb-3 col-4">
                                             <label class="form-label required" asp-for="CompanyType">Company Type</label>
-                                            <select class="form-select" asp-for="CompanyType" asp-items="ViewBag.CompaniesType" disabled>
+                                            <select class="form-select" asp-for="CompanyType" asp-items="Model.CompaniesType" disabled>
                                             </select>
                                         </div>
 
@@ -66,7 +65,7 @@
 
                                         <div class="mb-4">
                                             <label class="form-label required" asp-for="CompaniesPartner">Partners</label>
-                                            <select asp-for="CompaniesPartner" asp-items="ViewBag.Partners" class="form-select" disabled>
+                                            <select asp-for="CompaniesPartner" asp-items="Model.Partners" class="form-select" disabled>
                                             </select>
                                         </div>
 

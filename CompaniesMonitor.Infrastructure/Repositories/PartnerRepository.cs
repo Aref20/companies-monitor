@@ -42,7 +42,7 @@ namespace MSGCompaniesMonitor.Repository
 
             partnerObj.ArabicName = partner.ArabicName;
             partnerObj.EnglishName = partner.ArabicName;
-            partnerObj.SharedJD = partner.SharedJD;
+
            
             await _context.SaveChangesAsync();
             return partnerObj;

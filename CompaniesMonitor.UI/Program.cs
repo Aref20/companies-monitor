@@ -10,7 +10,11 @@ using MSGCompaniesMonitor.Jobs;
 using Quartz.Impl;
 using Quartz.Spi;
 using Quartz;
-
+using MSGCompaniesMonitor.Service;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using MSGCompaniesMonitor.Models;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +33,14 @@ builder.Services.AddScoped<IDocumentsRepository, DocumentRepository>();
 builder.Services.AddScoped<ICompaniesTypeRepository, CompanyTypeRepository>();
 builder.Services.AddScoped<IPartnersRepository, PartnerRepository>();
 builder.Services.AddScoped<ICompaniesRepository, CompanyRepository>();
+builder.Services.AddScoped<IUploadedFilesRepository, UploadedFileRepository>();
 
 builder.Services.AddScoped<IDocumentsTypeService, DocumentTypeService>();
 builder.Services.AddScoped<IDocumentsService, DocumentService>();
 builder.Services.AddScoped<ICompaniesTypeService, CompanyTypeService>();
 builder.Services.AddScoped<IPartnersService, PartnerService>();
 builder.Services.AddScoped<ICompaniesService, CompanyService>();
+builder.Services.AddScoped<IUploadedFilesService, UploadedFileService>();
 
 //Quartz Jobs 
 builder.Services.AddSingleton<IJobFactory, JobFactory>();
@@ -49,6 +55,23 @@ builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); //enforces authoriation policy (user must be authenticated) for all the action methods
+    });
+
+    builder.Services.ConfigureApplicationCookie(options => {
+        options.LoginPath = "/Account/Login";
+    });
+
+    builder.Services.AddHttpLogging(options =>
+    {
+        options.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestProperties | Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponsePropertiesAndHeaders;
+    });
 
 /*builder.Services.AddControllersWithViews(options =>
 {
@@ -73,6 +96,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 app.MapControllers();
 

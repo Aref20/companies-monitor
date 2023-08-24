@@ -2,6 +2,7 @@
 using MSGCompaniesMonitor.ServiceContracts;
 using MSGCompaniesMonitor.Models;
 using MSGCompaniesMonitor.ViewModels;
+using System.Xml.Linq;
 
 namespace MSGCompaniesMonitor.Controllers
 {
@@ -9,10 +10,12 @@ namespace MSGCompaniesMonitor.Controllers
     public class DocumentTypeController : Controller
     {
         readonly private IDocumentsTypeService _documentsTypeService;
+        readonly private IUploadedFilesService _uploadedFilesService;
 
-        public DocumentTypeController(IDocumentsTypeService documentsTypeService)
+        public DocumentTypeController(IDocumentsTypeService documentsTypeService,IUploadedFilesService uploadedFilesService)
         {
             _documentsTypeService = documentsTypeService;
+            _uploadedFilesService = uploadedFilesService;
         }
 
         [HttpGet]
@@ -67,8 +70,8 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(DocumentType documentType, int id, IFormCollection formCollection)
         {
-            var documentType2 = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
-            if (documentType2 == null) return NotFound();
+            var documentTypeObj = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
+            if (documentTypeObj == null) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -76,7 +79,7 @@ namespace MSGCompaniesMonitor.Controllers
                 return RedirectToAction("Index");
             }
 
-            var viewModel = await GetDocumentTypeEditViewModelAsync(documentType2);
+            var viewModel = await GetDocumentTypeEditViewModelAsync(documentTypeObj);
             viewModel.ShowToast = true;
             viewModel.ToastMessage = ModelState.Values
                                     .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
@@ -102,6 +105,7 @@ namespace MSGCompaniesMonitor.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
+            if (documentType == null) return NotFound();
             if (!ModelState.IsValid) return await HandleModelStateErrors(documentType);
 
             await _documentsTypeService.DeleteAsync(id);
@@ -126,10 +130,8 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var viewModel = new DocumentTypeEditViewModel
             {
-                Files = null,
-                DocumentType = documentType,
-
-                //FileName = documentType.FileName,
+                uploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id),
+                documentType = documentType,
                 Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
                 Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
             };
@@ -140,9 +142,9 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var viewModel = new DocumentTypeDeleteViewModel
             {
-                Files = null,
-                DocumentType = documentType,
-                //FileName = documentType.FileNames,
+
+                uploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id),
+                documentType = documentType,
                 Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
                 Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
             };
@@ -158,6 +160,16 @@ namespace MSGCompaniesMonitor.Controllers
                                     .ToList();
             viewModel.ToastType = "error";
             return View(viewModel);
+        }
+
+
+
+        public async Task<IActionResult> DeleteFile(int id)
+        {
+            await _uploadedFilesService.DeleteAsync(id);
+            // Get the current URL and redirect back to it
+            string currentUrl = Request.Headers["Referer"].ToString();
+            return Redirect(currentUrl);
         }
     }
 }

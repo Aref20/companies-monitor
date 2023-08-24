@@ -29,7 +29,7 @@ namespace MSGCompaniesMonitor.Models
 
         public string? ArabicNotes { get; set; }
 
-        public ICollection<CompanyPartner> CompaniesPartner { get; set; }
+        public ICollection<CompanyPartner>? CompaniesPartner { get; set; }
 
         public virtual ICollection<DocumentType>? DocumentesType { get; set; }
 

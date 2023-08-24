@@ -15,6 +15,8 @@ namespace MSGCompaniesMonitor.RepositoryContracts
         Task<List<SelectListItem>> GetAllDocumentsAsync();
         Task<List<SelectListItem>> GetAllCompaniesAsync(int id);
         Task<List<SelectListItem>> GetAllCompaniesAsync();
+        Task<List<UploadedFile>> GetAllFilesAsync(int id);
+        Task<List<UploadedFile>> GetAllFilesAsync();
         Task<DocumentType> GetDocumentTypeByIDAsync(int id);
         Task<Pagination<DocumentType>> PaginationAsync(string? search, int page, int pageSize);
 

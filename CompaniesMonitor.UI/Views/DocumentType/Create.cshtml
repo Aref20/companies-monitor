@@ -37,40 +37,42 @@
                             <fieldset class="form-fieldset">
 
                                 <div class="mb-3">
-                                        <label class="form-label required" asp-for="Company">Company</label>
-                                        <select class="form-select" asp-for="Company" asp-items="Model.Companies">
+                                        <label class="form-label required" asp-for="documentType.Company">Company</label>
+                                        <select class="form-select" asp-for="documentType.Company" asp-items="Model.Companies">
                                         </select>
                                 </div>
 
                                 <div class="mb-3">
-                                        <label class="form-label required" asp-for="Document">Document</label>
-                                        <select class="form-select" asp-for="Document" asp-items="Model.Documents">
+                                        <label class="form-label required" asp-for="documentType.Document">Document</label>
+                                        <select class="form-select" asp-for="documentType.Document" asp-items="Model.Documents">
                                         </select>
                                 </div>
 
                                  <div class="mb-3">
-                                        <label class="form-label required" asp-for="Amount">Amount</label>
-                                        <input class="form-control" asp-for="Amount" >
+                                        <label class="form-label required" asp-for="documentType.Amount">Amount</label>
+                                        <input class="form-control" asp-for="documentType.Amount">
                                  </div>
 
                                 <div class="mb-3">
-                                        <label class="form-label required" asp-for="StartDate">Start Date</label>
-                                        <input class="form-control" asp-for="StartDate" value="2023-01-01">
+                                        <label class="form-label required" asp-for="documentType.StartDate">Start Date</label>
+                                        <input class="form-control" asp-for="documentType.StartDate" value="2023-01-01">
                                 </div>
 
                                 <div class="mb-3">
-                                        <label class="form-label required" asp-for="ExpireyDate">Expirey Date</label>
-                                        <input class="form-control" asp-for="ExpireyDate" value="2023-01-01">
+                                        <label class="form-label required" asp-for="documentType.ExpireyDate">Expirey Date</label>
+                                        <input class="form-control" asp-for="documentType.ExpireyDate" value="2023-01-01">
                                  </div>
 
                                     <div class="mb-3">
-                                        <label  class="form-label required" asp-for="Files">File</label>
-                                        <input type="file" class="form-control" asp-for="Files" multiple>
+                                        <label class="form-label required" asp-for="documentType.Files">File</label>
+                                        <input type="file" class="form-control" asp-for="documentType.Files" multiple>
                                     </div>
 
+
+
                                     <div class="mb-3">
-                                        <label class="form-label" asp-for="Note">Note</label>
-                                        <textarea class="form-control" asp-for="Note" rows="6"></textarea>
+                                        <label class="form-label" asp-for="documentType.Note">Note</label>
+                                        <textarea class="form-control" asp-for="documentType.Note" rows="6"></textarea>
                                     </div>
 
                                     <div class="card-footer text-end mt-4">

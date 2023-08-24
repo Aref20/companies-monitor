@@ -28,7 +28,7 @@ namespace MSGCompaniesMonitor.Models
         //Navigation property to represent the related Company
         public Company? Company { get; set; }
 
-        public IEnumerable<UploadedFile> Files { get; set; }
+        public IEnumerable<UploadedFile>? Files { get; set; }
 
         //Foreign key to represent the one-to-many relationship
 

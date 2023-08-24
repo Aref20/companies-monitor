@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MSGCompaniesMonitor.Models;
 
 namespace MSGCompaniesMonitor.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext :  IdentityDbContext<User>
     {
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
@@ -60,7 +62,7 @@ namespace MSGCompaniesMonitor.Data
             */
 
 
-
+            base.OnModelCreating(modelBuilder);
 
         }
     }

@@ -70,7 +70,7 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex.Message + "Edit Servcie Error");
                 return null;
 
             }
@@ -112,6 +112,14 @@ namespace MSGCompaniesMonitor.Services
             return await  _documentsTypeRepository.GetAllCompaniesAsync();
         }
 
+        public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
+        {
+            return await _documentsTypeRepository.GetAllFilesAsync(id);
+        }
 
+        public async Task<List<UploadedFile>> GetAllFilesAsync()
+        {
+            return await _documentsTypeRepository.GetAllFilesAsync();
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace MSGCompaniesMonitor.ViewModels
 {
     public class DocumentTypeCreateViewModel : DocumentType
     {
+        public DocumentType documentType { get; set; }
         public List<SelectListItem> Documents { get; set; }
         public List<SelectListItem> Companies { get; set; }
         public bool ShowToast { get; set; }
