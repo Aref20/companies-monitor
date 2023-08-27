@@ -24,8 +24,6 @@ namespace MSGCompaniesMonitor.Repository
 
         public async Task<Company> CreateAsync(Company company, IFormCollection formCollection)
         {
-
-            await company.AssignCompanyPartnersAsync(formCollection);
             await company.AssignCompanyTypeAsync(_context, formCollection);
 
             _DbSet.Add(company);
@@ -50,7 +48,6 @@ namespace MSGCompaniesMonitor.Repository
             .FirstOrDefaultAsync(c => c.CompanyId == id);
 
             await company.EditCompanyTypeAsync(_context, companyobj, id, formCollection);
-            await company.EditCompanyPartnersAsync( companyobj, id, formCollection);
 
             companyobj.EnglishName = company.EnglishName;
             companyobj.ArabicName = company.ArabicName;

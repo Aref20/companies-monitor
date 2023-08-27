@@ -29,8 +29,8 @@ namespace MSGCompaniesMonitor.Repository
 
             documentType.Files = formCollection.Files.Select(file => new UploadedFile { File = file, FileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}", DocumentType = documentType ,DocumentTypeId = documentType.Id }).ToList();
 
-            documentType.Company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["documentType.Company"]));
-            documentType.Document = await _context.Documents.FirstOrDefaultAsync(obj => obj.DocumentId == int.Parse(formCollection["documentType.Document"]));
+            documentType.Company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["Company"]));
+            documentType.Document = await _context.Documents.FirstOrDefaultAsync(obj => obj.DocumentId == int.Parse(formCollection["Document"]));
             _DbSet.Add(documentType);
 
             if (await _context.SaveChangesAsync() != 0)
@@ -79,8 +79,8 @@ namespace MSGCompaniesMonitor.Repository
                documentTypeObj.Files = documentTypeObj.Files?.Concat(recivedFiles).ToList();
 
 
-               documentTypeObj.Company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["documentType.Company"]));
-               documentTypeObj.Document = await _context.Documents.FirstOrDefaultAsync(obj => obj.DocumentId == int.Parse(formCollection["documentType.Document"]));
+               documentTypeObj.Company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["Company"]));
+               documentTypeObj.Document = await _context.Documents.FirstOrDefaultAsync(obj => obj.DocumentId == int.Parse(formCollection["Document"]));
                documentTypeObj.StartDate = documentType.StartDate;
                documentTypeObj.ExpireyDate = documentType.ExpireyDate;
                documentTypeObj.Note = documentType.Note;
@@ -118,10 +118,11 @@ namespace MSGCompaniesMonitor.Repository
 
         public async Task<List<SelectListItem>> GetAllDocumentsAsync(int id)
         {
-  
-            return await _context.Documents.Select(temp => new SelectListItem 
-            { Value = temp.DocumentId.ToString(), Text = temp.Name, Selected = temp.DocumentId == id})
-                .ToListAsync();
+            var documents =  await _context.Documents.Select(temp => new SelectListItem
+            { Value = temp.DocumentId.ToString(), Text = temp.Name, Selected = temp.DocumentId == id }
+            ).ToListAsync();
+
+            return documents;
         }
 
         public async Task<List<SelectListItem>> GetAllDocumentsAsync()
@@ -203,6 +204,7 @@ namespace MSGCompaniesMonitor.Repository
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Error while deleting file");
+                        throw ex;
                     }
                 }
             }
@@ -229,7 +231,9 @@ namespace MSGCompaniesMonitor.Repository
                 }
                 catch (Exception ex)
                 {
+                    
                     _logger.LogError(ex, "Error while uploading file and inserting data");
+                    throw ex;
                 }
             }
         }

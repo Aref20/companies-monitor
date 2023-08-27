@@ -34,6 +34,7 @@ builder.Services.AddScoped<ICompaniesTypeRepository, CompanyTypeRepository>();
 builder.Services.AddScoped<IPartnersRepository, PartnerRepository>();
 builder.Services.AddScoped<ICompaniesRepository, CompanyRepository>();
 builder.Services.AddScoped<IUploadedFilesRepository, UploadedFileRepository>();
+builder.Services.AddScoped<ICompaniesPartnersRepository, CompanyPartnerRepository>();
 
 builder.Services.AddScoped<IDocumentsTypeService, DocumentTypeService>();
 builder.Services.AddScoped<IDocumentsService, DocumentService>();
@@ -41,7 +42,7 @@ builder.Services.AddScoped<ICompaniesTypeService, CompanyTypeService>();
 builder.Services.AddScoped<IPartnersService, PartnerService>();
 builder.Services.AddScoped<ICompaniesService, CompanyService>();
 builder.Services.AddScoped<IUploadedFilesService, UploadedFileService>();
-
+builder.Services.AddScoped<ICompaniesPartnersService, CompanyPartnerService>();
 //Quartz Jobs 
 builder.Services.AddSingleton<IJobFactory, JobFactory>();
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();

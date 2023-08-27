@@ -1,11 +1,11 @@
-﻿@model MSGCompaniesMonitor.ViewModels.CompanyEditViewModel
+﻿@model Company
 @{
     ViewData["Title"] = "Edit Company";
 }
 <!-- Your view content here -->
-@if (TempData["ShowToast"] != null && (bool)TempData["ShowToast"])
+@if (ViewBag.ToastMessage != null && (bool)TempData["ShowToast"])
 {
-    @foreach (var error in (List<string>)TempData["ToastMessage"])
+    @foreach (var error in ViewBag.ToastMessage)
     {
         <script>
             toastr.options = {
@@ -16,8 +16,10 @@
             toastr.error("@error");
 
         </script>
+
     }
 }
+
 
 <!-- Rest of your view content -->
 
@@ -37,69 +39,59 @@
                                     <div class="row row-cards">
 
                                         <div class="mb-3 col-4">
-                                            <label class="form-label required" asp-for="company.EnglishName">English Name</label>
-                                            <input class="form-control" asp-for="company.EnglishName">
+                                            <label class="form-label required" asp-for="EnglishName">English Name</label>
+                                            <input class="form-control" asp-for="EnglishName">
                                         </div>
 
                                         <div class="mb-3 col-4">
-                                            <label class="form-label required" asp-for="company.ArabicName">Arabic Name</label>
-                                            <input class="form-control" asp-for="company.ArabicName">
+                                            <label class="form-label required" asp-for="ArabicName">Arabic Name</label>
+                                            <input class="form-control" asp-for="ArabicName">
                                         </div>
 
                                         <div class="mb-3 col-4">
-                                            <label class="form-label required" asp-for="@Model.CompaniesType">Company Type</label>
-                                            <select class="form-select" asp-for="@Model.CompaniesType" asp-items="@Model.CompaniesType">
+                                            <label class="form-label required" asp-for="CompanyType">Company Type</label>
+                                            <select class="form-select" asp-for="CompanyType" asp-items="ViewBag.CompaniesType">
                                             </select>
                                         </div>
 
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.Number">Number</label>
-                                            <input class="form-control" asp-for="company.Number">
+                                            <label class="form-label" asp-for="Number">Number</label>
+                                            <input class="form-control" asp-for="Number">
                                         </div>
 
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.CapitalJD">CapitalJD</label>
-                                            <input class="form-control" asp-for="company.CapitalJD">
-                                        </div
-
-                                        <div class="mb-4">
-                                            <label class="form-label required" asp-for="@Model.Partners">Partners</label>
-                                            <select asp-for="@Model.Partners" asp-items="@Model.Partners" class="form-select">
-                                            </select>
+                                            <label class="form-label" asp-for="CapitalJD">CapitalJD</label>
+                                            <input class="form-control" asp-for="CapitalJD">
                                         </div>
 
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.CreatedDate">CreatedDate</label>
-                                            <input class="form-control" asp-for="company.CreatedDate">
+                                            <label class="form-label" asp-for="CreatedDate">CreatedDate</label>
+                                            <input class="form-control" asp-for="CreatedDate">
                                         </div>
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.CloseDate">CloseDate</label>
-                                            <input class="form-control" asp-for="company.CloseDate">
+                                            <label class="form-label" asp-for="CloseDate">CloseDate</label>
+                                            <input class="form-control" asp-for="CloseDate">
                                         </div>
 
 
 
-  
-
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.EnglishNotes">English Notes</label>
-                                            <textarea class="form-control" asp-for="company.EnglishNotes" rows="4"></textarea>
+                                            <label class="form-label" asp-for="EnglishNotes">English Notes</label>
+                                            <textarea class="form-control" asp-for="EnglishNotes" rows="4"></textarea>
                                         </div>
 
                                         <div class="mb-3 col-6">
-                                            <label class="form-label" asp-for="company.ArabicNotes">ArabicNotes</label>
-                                            <textarea class="form-control" asp-for="company.ArabicNotes" rows="4"></textarea>
+                                            <label class="form-label" asp-for="ArabicNotes">ArabicNotes</label>
+                                            <textarea class="form-control" asp-for="ArabicNotes" rows="4"></textarea>
                                         </div>
 
 
                                     </div>
-
-
                                     <div class="card-footer text-end mt-4">
                                         <div class="d-flex">
                                             <a asp-controller="Company" asp-action="Index" class="btn btn-link">Cancel</a>

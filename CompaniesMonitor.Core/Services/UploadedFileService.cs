@@ -23,7 +23,15 @@ namespace MSGCompaniesMonitor.Service
 
         public async Task<UploadedFile> DeleteAsync(int id)
         {
-          return await _UploadedFilesRepository.DeleteAsync(id);
+            try
+            {
+                return await _UploadedFilesRepository.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
     }
 

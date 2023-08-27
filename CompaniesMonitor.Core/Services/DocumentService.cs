@@ -16,77 +16,87 @@ namespace MSGCompaniesMonitor.Services
 
         public async Task<Document> CreateAsync(Document document)
         {
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
+
 
             try
             {
-
                 return await _documentsRepository.CreateAsync(document);
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
-        public async Task<Document> DeleteAsync(int ID)
+        public async Task<Document> DeleteAsync(int id)
         {
-            var document = await _documentsRepository.GetDocumentByIDAsync(ID);
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
 
             try
             {
-                return await _documentsRepository.DeleteAsync(ID);
+                return await _documentsRepository.DeleteAsync(id);
             }
             catch (Exception ex)
             {
-                return null;
+               throw ex;
             }
         }
 
 
 
-        public async Task<Document> EditAsync(Document document, int ID)
+        public async Task<Document> EditAsync(Document document, int id)
         {
-            var companyTypeObj = await _documentsRepository.GetDocumentByIDAsync(ID);
-            if (companyTypeObj == null || ID == 0)
-            {
-                throw new ArgumentNullException(nameof(companyTypeObj));
-            }
+
 
 
             try
             {
-                return await _documentsRepository.EditAsync(document, ID);
+                return await _documentsRepository.EditAsync(document, id);
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
 
         public async Task<List<Document>> GetAllDocumentsAsync()
         {
-            return await _documentsRepository.GetAllDocumentsAsync();
+            try
+            {
+                return await _documentsRepository.GetAllDocumentsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
 
-        public async Task<Document> GetDocumentByIDAsync(int ID)
+        public async Task<Document> GetDocumentByIDAsync(int id)
         {
-            return await _documentsRepository.GetDocumentByIDAsync(ID);
+            try
+            {
+                return await _documentsRepository.GetDocumentByIDAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<Pagination<Document>> PaginationAsync(string? search, int page, int pageSize)
         {
-
-            return await _documentsRepository.PaginationAsync(search, page, pageSize);
+            try
+            {
+                return await _documentsRepository.PaginationAsync(search, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
 
         }
     }

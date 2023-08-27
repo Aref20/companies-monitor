@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MSGCompaniesMonitor.ServiceContracts;
 using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.Mail;
-using MSGCompaniesMonitor.ViewModels;
+
 
 
 
@@ -14,7 +13,7 @@ namespace MSGCompaniesMonitor.Controllers
     {
         readonly private ICompaniesService _companiesService;
 
-        public CompanyController(ICompaniesService companiesService, IEmailSender emailSender)
+        public CompanyController(ICompaniesService companiesService)
         {
             _companiesService = companiesService;
         }
@@ -31,25 +30,34 @@ namespace MSGCompaniesMonitor.Controllers
 
         [HttpGet]
         [Route("[Action]")]
-        public async Task<IActionResult> Create(Company company)
+        public async Task<IActionResult> Create()
         {
-            var viewModel = await GetCompanyCreateModelAsync(company);
-            return View(viewModel);
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
+            return View();
         }
 
         [HttpPost]
         [Route("[Action]")]
         public async Task<IActionResult> Create(Company company, IFormCollection formCollection)
         {
-            
-            if (ModelState.IsValid)
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
+            try
             {
-                Company companyObj = await _companiesService.CreateAsync(company, formCollection);
-                return RedirectToAction("Index", "Company");
+                if (ModelState.IsValid)
+                {
+                    Company companyObj = await _companiesService.CreateAsync(company, formCollection);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Inserted Successfully";
+                    return RedirectToAction("Index", "Company");
+                }
             }
-            ShowTostMessage("error");
-            var viewModel = await GetCompanyCreateModelAsync(company);
-            return View(viewModel);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View(company);
 
         }
 
@@ -58,124 +66,86 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-
             var company = await _companiesService.GetCompanyByIDAsync(id);
 
-            var viewModel = await GetCompanyEditModelAsync(company);
-            return View(viewModel);
+            if(company == null) return NotFound();
+            
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId);
+
+            return View(company);
         }
 
         [HttpPost]
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(Company company, int id, IFormCollection formCollection)
         {
-
-            if (ModelState.IsValid)
+            var companyObj = await _companiesService.GetCompanyByIDAsync(id);
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(companyObj.CompanyTypeId);
+            try
             {
-                await _companiesService.EditAsync(company, id, formCollection);
-                return RedirectToAction("Index", "Company");
+                if (ModelState.IsValid)
+                {
+                    await _companiesService.EditAsync(company, id, formCollection);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "Company");
+                }
             }
-            ShowTostMessage("error");
-            var viewModel = await GetCompanyEditModelAsync(company);
-            return View(viewModel);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+
+            return View(companyObj);
 
         }
 
         [HttpGet]
         [Route("[Action]/{id}")]
-        public async Task<IActionResult> Delete(Company company , int id, bool t = false)
+        public async Task<IActionResult> Delete(int id)
         {
-            var companyObj = await _companiesService.GetCompanyByIDAsync(id);
-            var viewModel = await GetCompanyDeleteModelAsync(companyObj);
-            return View(viewModel);
+            var company = await _companiesService.GetCompanyByIDAsync(id);
+            if (company == null) return NotFound();
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId);
+
+            return View(company);
         }
 
         [HttpPost]
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Delete(Company company, int id)
         {
-            
-
-            if (ModelState.IsValid)
+            var companyObj = await _companiesService.GetCompanyByIDAsync(id);
+            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(companyObj.CompanyTypeId);
+            try
             {
-                await _companiesService.DeleteAsync(id);
-                return RedirectToAction("Index", "Company");
+                if (ModelState.IsValid)
+                {
+                    await _companiesService.DeleteAsync(id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "Company");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
             }
 
-            ShowTostMessage("error");
-            var viewModel = await GetCompanyDeleteModelAsync(company);
-            return View(viewModel);
-
-        }
-
-
-
-        //private methods
-        private async Task<CompanyDeleteViewModel> GetCompanyDeleteModelAsync(Company company)
-        {
-
-            var viewModel = new CompanyDeleteViewModel
-            {
-                company = await _companiesService.GetCompanyByIDAsync(company.CompanyId),
-                Partners = await _companiesService.GetAllPartnerssAsItemsAsync(company.CompanyId),
-                CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId),
-            };
-            return viewModel;
-        }
-
-        private async Task<CompanyEditViewModel> GetCompanyEditModelAsync(Company company)
-        {
-            var companyObj = new Company
-            {
-                EnglishName = company.EnglishName,
-                ArabicName = company.ArabicName,
-                Number = company.Number,
-                CapitalJD = company.CapitalJD,
-                CreatedDate = company.CreatedDate,
-                CloseDate = company.CloseDate,
-                EnglishNotes = company.EnglishNotes,
-                ArabicNotes = company.ArabicNotes,
-            };
-            var viewModel = new CompanyEditViewModel
-            {
-                company = companyObj,
-                Partners = await _companiesService.GetAllPartnerssAsItemsAsync(company.CompanyId),
-                CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId),
-            };
-            return viewModel;
-        }
-
-
-        private async Task<CompanyCreateViewModel> GetCompanyCreateModelAsync(Company company)
-        {
-
-            var companyPartnersObj = new List<CompanyPartner>()
-            {
-                new CompanyPartner()
-                {
-                    CompanyId = company.CompanyId,
-                    PartnerId = 0, 
-                    SharedJD = 0,
-                }
-            };
-            var viewModel = new CompanyCreateViewModel
-            {
-                companyPartners = companyPartnersObj,
-                company = null,
-                Partners = await _companiesService.GetAllPartnerssAsItemsAsync(),
-                CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(),
-            };
-            return viewModel;
-        }
-
-        private async void ShowTostMessage(string type)
-        {
             TempData["ShowToast"] = true;
-            TempData["ToastMessage"] = ModelState.Values
-                                    .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                                    .ToList();
-            TempData["ToastType"] = type;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+
+            return View(companyObj);
+
+
         }
+
+
+
+
 
 
 

@@ -20,11 +20,6 @@ namespace MSGCompaniesMonitor.Services
         
         public async Task<Company> CreateAsync(Company company , IFormCollection formCollection)
         {
-            if(company == null || formCollection == null)
-            {
-                return null;
-            }
-            
             try
             {
                 
@@ -32,16 +27,12 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
         public async Task<Company> DeleteAsync(int id)
         {
-            if (id == 0)
-            {
-                return null;
-            }
 
             try
             {
@@ -50,7 +41,7 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -59,72 +50,85 @@ namespace MSGCompaniesMonitor.Services
         public async Task<Company> EditAsync(Company company, int id, IFormCollection formCollection)
         {
 
-            if (await _companyRepository.GetCompanyByIDAsync(id) ==null)
-            {
-                return null;
-            }
-
             try
             {
                 var companyObj = await _companyRepository.EditAsync(company, id, formCollection);
-
 
                 return companyObj;
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
-        public async Task<List<SelectListItem>> GetAllPartnerssAsItemsAsync()
-        {
-            return await _companyRepository.GetAllPartnerssAsItemsAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllPartnerssAsItemsAsync(int? id)
-        {
-            return await _companyRepository.GetAllPartnerssAsItemsAsync(id);
-        }
 
         public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync(int? id)
         {
-            return await _companyRepository.GetAllCompaniesTypeAsItemsAsync(id);
+            try 
+            { 
+                return await _companyRepository.GetAllCompaniesTypeAsItemsAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync()
         {
-            return await _companyRepository.GetAllCompaniesTypeAsItemsAsync();
-        }
+            try 
+
+            { 
+                return await _companyRepository.GetAllCompaniesTypeAsItemsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
 
 
         public async Task<List<Company>> GetAllCompaniesAsync()
         {
-            return await _companyRepository.GetAllCompaniesAsync();
-        }
+            try 
+            { 
+
+                return await _companyRepository.GetAllCompaniesAsync();
+             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
 
 
         public async Task<Company> GetCompanyByIDAsync(int id)
         {
-
-            return await _companyRepository.GetCompanyByIDAsync(id);
-        }
+            try
+            {
+                return await _companyRepository.GetCompanyByIDAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+}
 
         public async Task<Pagination<Company>> PaginationAsync(string? search, int page, int pageSize)
         {
-           return await _companyRepository.PaginationAsync(search, page, pageSize);
+            try
+            {
+                return await _companyRepository.PaginationAsync(search, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        }
+}
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsItemsAsync()
-        {
-            return await _companyRepository.GetAllDocumentsAsItemsAsync();
-        }
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsItemsAsync(int? id)
-        {
-            return await _companyRepository.GetAllDocumentsAsItemsAsync(id);
-        }
     }
 
 

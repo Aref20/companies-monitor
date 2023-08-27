@@ -2,7 +2,7 @@
 using MSGCompaniesMonitor.ServiceContracts;
 using MSGCompaniesMonitor.Models;
 using MSGCompaniesMonitor.ViewModels;
-using System.Xml.Linq;
+
 
 namespace MSGCompaniesMonitor.Controllers
 {
@@ -29,30 +29,38 @@ namespace MSGCompaniesMonitor.Controllers
 
         [HttpGet]
         [Route("[Action]")]
-        public async Task<IActionResult> Create(DocumentType documentType)
+        public async Task<IActionResult> Create()
         {
-            var viewModel = await GetDocumentTypeCreateViewModelAsync();
-            return View(viewModel);
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync();
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync();
+            return View();
         }
 
         [HttpPost]
         [Route("[Action]")]
         public async Task<IActionResult> Create(DocumentType documentType, IFormCollection formCollection)
         {
-            if (ModelState.IsValid)
+
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync();
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync();
+           
+            try
             {
-                await _documentsTypeService.CreateAsync(documentType, formCollection);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var documentTypeObj = await _documentsTypeService.CreateAsync(documentType, formCollection);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Inserted Successfully";
+                    return RedirectToAction("Index", "DocumentType");
+                }
             }
-
-            var viewModel = await GetDocumentTypeCreateViewModelAsync();
-            viewModel.ShowToast = true;
-            viewModel.ToastMessage = ModelState.Values
-                                    .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                                    .ToList();
-            viewModel.ToastType = "error";
-
-            return View(viewModel);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
         }
 
         [HttpGet]
@@ -62,8 +70,10 @@ namespace MSGCompaniesMonitor.Controllers
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
 
-            var viewModel = await GetDocumentTypeEditViewModelAsync(documentType);
-            return View(viewModel);
+            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            return View(documentType);
         }
 
         [HttpPost]
@@ -73,20 +83,28 @@ namespace MSGCompaniesMonitor.Controllers
             var documentTypeObj = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentTypeObj == null) return NotFound();
 
-            if (ModelState.IsValid)
+            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentTypeObj.Id);
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentTypeObj.DocumentId);
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentTypeObj.CompanyId);
+            try
             {
-                await _documentsTypeService.EditAsync(documentType, id, formCollection);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    await _documentsTypeService.EditAsync(documentType, id, formCollection);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "DocumentType");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
             }
 
-            var viewModel = await GetDocumentTypeEditViewModelAsync(documentTypeObj);
-            viewModel.ShowToast = true;
-            viewModel.ToastMessage = ModelState.Values
-                                    .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                                    .ToList();
-            viewModel.ToastType = "error";
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
 
-            return View(viewModel);
+            return View(documentTypeObj);
         }
 
         [HttpGet]
@@ -96,8 +114,10 @@ namespace MSGCompaniesMonitor.Controllers
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
 
-            var viewModel = await GetDocumentTypeDeleteViewModelAsync(documentType);
-            return View(viewModel);
+            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            return View(documentType);
         }
 
         [HttpPost]
@@ -106,62 +126,30 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
-            if (!ModelState.IsValid) return await HandleModelStateErrors(documentType);
 
-            await _documentsTypeService.DeleteAsync(id);
-            return RedirectToAction("Index");
-        }
-
-
-        private async Task<DocumentTypeCreateViewModel> GetDocumentTypeCreateViewModelAsync()
-        {
-
-            var viewModel = new DocumentTypeCreateViewModel
+            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            try
             {
-                Files = null,
-                Documents = await _documentsTypeService.GetAllDocumentsAsync(),
-                Companies = await _documentsTypeService.GetAllCompaniesAsync(),
-                ShowToast = false
-            };
-            return viewModel;
-        }
-
-        private async Task<DocumentTypeEditViewModel> GetDocumentTypeEditViewModelAsync(DocumentType documentType)
-        {
-            var viewModel = new DocumentTypeEditViewModel
+                if (ModelState.IsValid)
+                {
+                    await _documentsTypeService.DeleteAsync(id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "DocumentType");
+                }
+            }
+            catch (Exception ex)
             {
-                uploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id),
-                documentType = documentType,
-                Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
-                Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
-            };
-            return viewModel;
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+
+            return View(documentType);
         }
-
-        private async Task<DocumentTypeDeleteViewModel> GetDocumentTypeDeleteViewModelAsync(DocumentType documentType)
-        {
-            var viewModel = new DocumentTypeDeleteViewModel
-            {
-
-                uploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id),
-                documentType = documentType,
-                Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId),
-                Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId)
-            };
-            return viewModel;
-        }
-
-        private async Task<IActionResult> HandleModelStateErrors(DocumentType documentType)
-        {
-            var viewModel = await GetDocumentTypeDeleteViewModelAsync(documentType);
-            viewModel.ShowToast = true;
-            viewModel.ToastMessage = ModelState.Values
-                                    .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                                    .ToList();
-            viewModel.ToastType = "error";
-            return View(viewModel);
-        }
-
 
 
         public async Task<IActionResult> DeleteFile(int id)

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Edit Partner";
 }
 <!-- Your view content here -->
-@if (ViewBag.ShowToast != null && (bool)ViewBag.ShowToast)
+@if (ViewBag.ToastMessage != null && (bool)TempData["ShowToast"])
 {
     @foreach (var error in ViewBag.ToastMessage)
     {
@@ -18,8 +18,6 @@
         </script>
 
     }
-
-
 }
 
 <!-- Rest of your view content -->

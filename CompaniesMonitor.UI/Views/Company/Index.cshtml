@@ -2,9 +2,9 @@
 
 @{
     ViewData["Title"] = "Company";
-
+    var showToast = TempData["ShowToast"] as bool?;
 }
-@if (ViewBag.ShowToast != null && (bool)ViewBag.ShowToast)
+@if (showToast.HasValue && showToast.Value)
 {
 
     <script>
@@ -13,10 +13,9 @@
             "timeOut": "3000", // Toast will disappear after 3 seconds
         }
 
-        toastr.success("Record Inserted Successfully");
+        toastr.success("@TempData["ToastMessage"]");
 
     </script>
-
 }
 <div class="page-wrapper">
     <!-- Page header -->

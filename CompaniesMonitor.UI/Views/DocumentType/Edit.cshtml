@@ -1,11 +1,11 @@
-﻿@model MSGCompaniesMonitor.ViewModels.DocumentTypeEditViewModel
+﻿@model DocumentType
 @{
     ViewData["Title"] = "Edit Document Type";
 }
 <!-- Your view content here -->
-@if (Model.ShowToast != null && (bool)Model.ShowToast)
+@if (ViewBag.ToastMessage != null && (bool)TempData["ShowToast"])
 {
-    @foreach (var error in Model.ToastMessage)
+    @foreach (var error in ViewBag.ToastMessage)
     {
         <script>
             toastr.options = {
@@ -38,41 +38,41 @@
                                 <fieldset class="form-fieldset">
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.Company">Company</label>
-                                        <select class="form-select" asp-for="documentType.Company" asp-items="Model.Companies">
+                                        <label class="form-label required" asp-for="Company">Company</label>
+                                        <select class="form-select" asp-for="Company" asp-items="ViewBag.Companies">
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.Document">Document</label>
-                                        <select class="form-select" asp-for="documentType.Document" asp-items="Model.Documents">
+                                        <label class="form-label required" asp-for="Document">Document</label>
+                                        <select class="form-select" asp-for="Document" asp-items="ViewBag.Documents">
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.Amount">Amount</label>
-                                        <input class="form-control" asp-for="documentType.Amount">
+                                        <label class="form-label required" asp-for="Amount">Amount</label>
+                                        <input class="form-control" asp-for="Amount">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.StartDate">Start Date</label>
-                                        <input class="form-control" asp-for=documentType.StartDate>
+                                        <label class="form-label required" asp-for="StartDate">Start Date</label>
+                                        <input class="form-control" asp-for=StartDate>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.ExpireyDate">Expirey Date</label>
-                                        <input class="form-control" asp-for=documentType.ExpireyDate>
+                                        <label class="form-label required" asp-for="ExpireyDate">Expirey Date</label>
+                                        <input class="form-control" asp-for=ExpireyDate>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label required" asp-for="documentType.Files">File</label>
-                                        <input type="file" class="form-control" asp-for="documentType.Files" multiple>
+                                        <label class="form-label required" asp-for="Files">File</label>
+                                        <input type="file" class="form-control" asp-for="Files" multiple>
                                     </div>
 
 
                                         <div class="mb-3">
                                          <label class="form-label">Selected File:</label>
-                                        @foreach (var file in Model.uploadedFiles)
+                                        @foreach (var file in ViewBag.UploadedFiles)
                                         {
                                             <a href="~/Documents/@file.FileName">@file.FileName</a>
                                             <a href="@Url.Action("DeleteFile", "DocumentType", new { id = file.Id })" class="link-red">
@@ -93,8 +93,8 @@
                                     
 
                                     <div class="mb-3">
-                                        <label class="form-label" asp-for="documentType.Note">Note</label>
-                                        <textarea class="form-control" asp-for="documentType.Note" rows="6"></textarea>
+                                        <label class="form-label" asp-for="Note">Note</label>
+                                        <textarea class="form-control" asp-for="Note" rows="6"></textarea>
                                     </div>
 
                                     <div class="card-footer text-end mt-4">

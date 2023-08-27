@@ -14,10 +14,6 @@ namespace MSGCompaniesMonitor.Services
 
         public async Task<Partner> CreateAsync(Partner partner)
         {
-            if (partner == null)
-            {
-                throw new ArgumentNullException(nameof(partner));
-            }
 
             try
             {
@@ -26,17 +22,12 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
         public async Task<Partner> DeleteAsync(int id)
         {
-            var partner = await _partnersRepository.GetPartnerByIDAsync(id);
-            if (partner == null)
-            {
-                throw new ArgumentNullException(nameof(partner));
-            }
 
             try
             {
@@ -44,7 +35,7 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+               throw ex;
             }
         }
 
@@ -52,12 +43,6 @@ namespace MSGCompaniesMonitor.Services
 
         public async Task<Partner> EditAsync(Partner partner,int id)
         {
-            var partnerObj = await _partnersRepository.GetPartnerByIDAsync(id);
-            if (partnerObj == null || id == 0)
-            {
-                throw new ArgumentNullException(nameof(partnerObj));
-            }
-
 
             try
             {
@@ -65,25 +50,49 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
 
         public async Task<List<Partner>> GetAllPartnersAsync()
         {
-            return await _partnersRepository.GetAllPartnersAsync();
+            try
+            {
+                return await _partnersRepository.GetAllPartnersAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
 
-        public async Task<Partner> GetPartnerByIDAsync(int ID)
+        public async Task<Partner> GetPartnerByIDAsync(int id)
         {
-            return await _partnersRepository.GetPartnerByIDAsync(ID);
+            try
+            {
+                return await _partnersRepository.GetPartnerByIDAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<Pagination<Partner>> PaginationAsync(string? search, int page, int pageSize)
         {
-           return await _partnersRepository.PaginationAsync(search, page, pageSize);
+            try
+            {
+                return await _partnersRepository.PaginationAsync(search, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
     }

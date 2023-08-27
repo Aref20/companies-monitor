@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MSGCompaniesMonitor.Models;
+using System;
 
 namespace MSGCompaniesMonitor.Data
 {
@@ -36,30 +37,32 @@ namespace MSGCompaniesMonitor.Data
             .WithOne(b => b.Document)
             .HasForeignKey(b => b.DocumentId);
 
+            modelBuilder.Entity<Company>()
+            .HasOne(ct => ct.CompanyType)
+            .WithMany(c => c.Companies)
+            .HasForeignKey(ct => ct.CompanyTypeId);
+                
 
             modelBuilder.Entity<DocumentType>()
             .HasMany(a => a.Files)
             .WithOne(b => b.DocumentType)
             .HasForeignKey(b => b.DocumentTypeId);
-            /*  modelBuilder.Entity<Partner>()
-                   .Property(e => e.Percentage)
-                   .HasComputedColumnSql("[SharedJD]/[Company.CapitalJD]");*/
 
-            // Configure many-to-many relationship between Companies and Partners
+            modelBuilder.Entity<Document>()
+             .HasIndex(d => d.Name)
+             .IsUnique();
 
-            /*       modelBuilder.Entity<CompanyPartner>()
-                       .HasKey(cp => new { cp.CompanyId, cp.PartnerId });
+            modelBuilder.Entity<CompanyType>()
+             .HasIndex(d => d.Name)
+             .IsUnique();
 
-                   modelBuilder.Entity<CompanyPartner>()
-                       .HasOne(cp => cp.Company)
-                       .WithMany(c => c.CompaniesPartner)
-                       .HasForeignKey(cp => cp.CompanyId);
+            modelBuilder.Entity<Partner>()
+             .HasIndex(d => d.EnglishName).IncludeProperties(d => d.ArabicName)
+             .IsUnique();
 
-                   modelBuilder.Entity<CompanyPartner>()
-                       .HasOne(cp => cp.Partner)
-                       .WithMany(p => p.CompaniesPartner)
-                       .HasForeignKey(cp => cp.PartnerId);
-            */
+            modelBuilder.Entity<Company>()
+             .HasIndex(d => d.EnglishName).IncludeProperties(d => d.ArabicName)
+             .IsUnique();
 
 
             base.OnModelCreating(modelBuilder);

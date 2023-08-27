@@ -18,29 +18,20 @@ namespace MSGCompaniesMonitor.Services
         
         public async Task<CompanyType> CreateAsync(CompanyType companyType)
         {
-            if (companyType == null)
-            {
-                throw new ArgumentNullException(nameof(companyType));
-            }
 
             try
             {
 
-                return await _companiesTypeService.CreateAsync(companyType);
+              return await _companiesTypeService.CreateAsync(companyType);
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
         public async Task<CompanyType> DeleteAsync(int id)
         {
-            var companyType = await _companiesTypeService.GetCompanyTypeByIDAsync(id);
-            if (companyType == null)
-            {
-                throw new ArgumentNullException(nameof(companyType));
-            }
 
             try
             {
@@ -48,7 +39,7 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -56,12 +47,6 @@ namespace MSGCompaniesMonitor.Services
 
         public async Task<CompanyType> EditAsync(CompanyType companyType, int id)
         {
-            var companyTypeObj = await _companiesTypeService.GetCompanyTypeByIDAsync(id);
-            if (companyTypeObj == null || id == 0)
-            {
-                throw new ArgumentNullException(nameof(companyTypeObj));
-            }
-
 
             try
             {
@@ -69,29 +54,47 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
 
         public async Task<List<CompanyType>> GetAllCompaniesTypeAsync()
         {
-            return await _companiesTypeService.GetAllCompaniesTypeAsync();
+            try { 
+                return await _companiesTypeService.GetAllCompaniesTypeAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
         public async Task<CompanyType> GetCompanyTypeByIDAsync(int id)
         {
-            if(id == 0)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
+                return await _companiesTypeService.GetCompanyTypeByIDAsync(id);
             }
-            return await _companiesTypeService.GetCompanyTypeByIDAsync(id);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Pagination<CompanyType>> PaginationAsync(string? search, int page, int pageSize)
         {
-            return await _companiesTypeService.PaginationAsync(search, page, pageSize);
+            try 
+            {                
+                return await _companiesTypeService.PaginationAsync(search, page, pageSize);
+             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 
 
         }

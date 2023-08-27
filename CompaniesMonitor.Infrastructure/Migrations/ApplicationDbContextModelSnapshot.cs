@@ -51,7 +51,7 @@ namespace CompaniesMonitor.Infrastructure.Migrations
 
                     b.Property<string>("EnglishName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("EnglishNotes")
                         .HasColumnType("nvarchar(max)");
@@ -62,6 +62,11 @@ namespace CompaniesMonitor.Infrastructure.Migrations
                     b.HasKey("CompanyId");
 
                     b.HasIndex("CompanyTypeId");
+
+                    b.HasIndex("EnglishName")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("EnglishName"), new[] { "ArabicName" });
 
                     b.ToTable("Companies");
                 });
@@ -105,9 +110,12 @@ namespace CompaniesMonitor.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("CompaniesType");
                 });
@@ -122,9 +130,12 @@ namespace CompaniesMonitor.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("DocumentId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Documents");
                 });
@@ -178,9 +189,14 @@ namespace CompaniesMonitor.Infrastructure.Migrations
 
                     b.Property<string>("EnglishName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PartnerId");
+
+                    b.HasIndex("EnglishName")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("EnglishName"), new[] { "ArabicName" });
 
                     b.ToTable("Partners");
                 });
@@ -233,7 +249,6 @@ namespace CompaniesMonitor.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")

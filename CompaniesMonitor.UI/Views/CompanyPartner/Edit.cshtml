@@ -1,0 +1,75 @@
+﻿@model CompanyPartner
+@{
+    ViewData["Title"] = "Edit Company Partner";
+}
+<!-- Your view content here -->
+@if (ViewBag.ToastMessage != null && (bool)TempData["ShowToast"])
+{
+    @foreach (var error in ViewBag.ToastMessage)
+    {
+        <script>
+            toastr.options = {
+                "positionClass": "toast-top-left",
+                "timeOut": "3000", // Toast will disappear after 3 seconds
+            }
+
+            toastr.error("@error");
+
+        </script>
+
+    }
+}
+
+<!-- Rest of your view content -->
+
+<form asp-controller="CompanyPartner" asp-action="Edit" method="post">
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div style="text-align: center;">
+                        <h4 class="card-title">Company Partner</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-5">
+                            <div class="col-xl-4"></div>
+                            <div class="col-xl-4">
+                                <fieldset class="form-fieldset">
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Company">Company</label>
+                                        <input class="form-control" asp-for="Company">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Partner">Partner</label>
+                                        <input class="form-control" asp-for="Partner">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="SharedJD">SharedJD</label>
+                                        <input class="form-control" asp-for="SharedJD">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label required" asp-for="Percentage">Percentage</label>
+                                        <input disabled class="form-control" asp-for="Percentage">
+                                    </div>
+
+
+                                    <div class="card-footer text-end mt-4">
+                                        <div class="d-flex">
+                                            <a asp-controller="CompanyPartner" asp-action="Index" class="btn btn-link">Cancel</a>
+                                            <button type="submit" class="btn btn-primary ms-auto">Edit</button>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

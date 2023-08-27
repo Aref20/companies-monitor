@@ -27,8 +27,6 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public IActionResult Create()
         {
-            
-            ViewBag.ShowToast = false;
             return View();
         }
 
@@ -36,16 +34,25 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Create(Document document)
         {
-            
-            if (!ModelState.IsValid)
-            {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+
+            try 
+            { 
+                if (ModelState.IsValid)
+                {
+                    await _documentsService.CreateAsync(document);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Inserted Successfully";
+                    return RedirectToAction("Index", "Document");
+                }
             }
-            await _documentsService.CreateAsync(document);
-            return RedirectToAction("Index", "Document");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
+
         }
 
         [HttpGet]
@@ -67,16 +74,25 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(Document document, int id)
         {
-            
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+                if (ModelState.IsValid)
+                {
+                    await _documentsService.EditAsync(document, id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "Document");
+                }
             }
-            await _documentsService.EditAsync(document, id);
-            return RedirectToAction("Index", "Document");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
+
         }
 
         [HttpGet]
@@ -85,10 +101,7 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var document = await _documentsService.GetDocumentByIDAsync(id);
 
-            if (document == null)
-            {
-                return NotFound();
-            }
+            if (document == null) return NotFound();
 
             return View(document);
         }
@@ -97,16 +110,27 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+
+                if (ModelState.IsValid)
+                {
+                    await _documentsService.DeleteAsync(id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Deleted Successfully";
+                    return RedirectToAction("Index", "Document");
+
+                }
             }
-            await _documentsService.DeleteAsync(id);
-            return RedirectToAction("Index", "Document");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
+
         }
 
 

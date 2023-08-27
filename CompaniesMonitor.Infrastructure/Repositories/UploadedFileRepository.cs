@@ -47,7 +47,7 @@ namespace MSGCompaniesMonitor.Repository
                     }
                     catch (Exception ex)
                     {
-                        
+                        throw ex;
                     }
 
                 }

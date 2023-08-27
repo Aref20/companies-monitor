@@ -22,28 +22,19 @@ namespace MSGCompaniesMonitor.Services
 
         public async Task<DocumentType> CreateAsync(DocumentType documentType, IFormCollection formCollection)
         {
-            if (documentType == null)
-            {
-                throw new ArgumentNullException(nameof(documentType));
-            }
+
             try
             {
-
                 return await _documentsTypeRepository.CreateAsync(documentType, formCollection);
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
         public async Task<DocumentType> DeleteAsync(int id)
         {
-            var documentType = await _documentsTypeRepository.GetDocumentTypeByIDAsync(id);
-            if (documentType == null)
-            {
-                throw new ArgumentNullException(nameof(documentType));
-            }
 
             try
             {
@@ -51,75 +42,141 @@ namespace MSGCompaniesMonitor.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
         public async Task<DocumentType> EditAsync(DocumentType documentType, int id, IFormCollection formCollection)
         {
             
-
-            if (await _documentsTypeRepository.GetDocumentTypeByIDAsync(id) == null)
-            {
-                throw new ArgumentNullException(nameof(documentType));
-            }
-
             try
             {
                 return await _documentsTypeRepository.EditAsync(documentType, id, formCollection);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message + "Edit Servcie Error");
-                return null;
+                throw ex;
 
             }
         }
 
         public async Task<List<DocumentType>> GetAllDocumentsTypeAsync()
         {
-            return await _documentsTypeRepository.GetAllDocumentsTypeAsync();
+            try
+            {
+                return await _documentsTypeRepository.GetAllDocumentsTypeAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<List<SelectListItem>> GetAllDocumentsAsync(int id)
         {
-            return await _documentsTypeRepository.GetAllDocumentsAsync(id);
+            try
+            {
+                return await _documentsTypeRepository.GetAllDocumentsAsync(id); 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<List<SelectListItem>> GetAllDocumentsAsync()
         {
-            return await _documentsTypeRepository.GetAllDocumentsAsync();
+            try
+            {
+                return await _documentsTypeRepository.GetAllDocumentsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
 
         public async Task<DocumentType> GetDocumentTypeByIDAsync(int id)
         {
-            return await _documentsTypeRepository.GetDocumentTypeByIDAsync(id);
+            try
+            {
+                return await _documentsTypeRepository.GetDocumentTypeByIDAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<Pagination<DocumentType>> PaginationAsync(string? search, int page, int pageSize)
         {
-            return await _documentsTypeRepository.PaginationAsync(search,page,pageSize);
+            try
+            {
+                return await _documentsTypeRepository.PaginationAsync(search, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public async Task<List<SelectListItem>> GetAllCompaniesAsync(int id)
         {
-            return await _documentsTypeRepository.GetAllCompaniesAsync(id);
+            try
+            {
+                return await _documentsTypeRepository.GetAllCompaniesAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+              
         }
 
         public async Task<List<SelectListItem>> GetAllCompaniesAsync()
         {
-            return await  _documentsTypeRepository.GetAllCompaniesAsync();
+            try
+            {
+                return await _documentsTypeRepository.GetAllCompaniesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
         {
-            return await _documentsTypeRepository.GetAllFilesAsync(id);
+            try
+            {
+                return await _documentsTypeRepository.GetAllFilesAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+
         }
 
         public async Task<List<UploadedFile>> GetAllFilesAsync()
         {
-            return await _documentsTypeRepository.GetAllFilesAsync();
+            try
+            {
+                return await _documentsTypeRepository.GetAllFilesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
     }
 }

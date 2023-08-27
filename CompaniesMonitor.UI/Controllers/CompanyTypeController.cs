@@ -28,7 +28,6 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public IActionResult Create()
         {
-            ViewBag.ShowToast = false;
             return View();
         }
 
@@ -36,15 +35,23 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Create(CompanyType companyType)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+                if (ModelState.IsValid)
+                {
+                    await _companiesTypeService.CreateAsync(companyType);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Inserted Successfully";
+                    return RedirectToAction("Index", "CompanyType");
+                }
             }
-            await _companiesTypeService.CreateAsync(companyType);
-            return RedirectToAction("Index", "CompanyType");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
         }
 
         [HttpGet]
@@ -53,11 +60,8 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var companyType = await _companiesTypeService.GetCompanyTypeByIDAsync(id);
 
-            if (companyType == null)
-            {
-                return NotFound();
-            }
-
+            if (companyType == null) return NotFound();
+          
             return View(companyType);
         }
 
@@ -65,15 +69,24 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(CompanyType companyType, int id)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+                if (ModelState.IsValid)
+                {
+                    await _companiesTypeService.EditAsync(companyType, id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Updated Successfully";
+                    return RedirectToAction("Index", "CompanyType");
+                }
             }
-            await _companiesTypeService.EditAsync(companyType, id);
-            return RedirectToAction("Index", "CompanyType");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
         }
 
         [HttpGet]
@@ -82,10 +95,8 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var companyType = await _companiesTypeService.GetCompanyTypeByIDAsync(id);
 
-            if (companyType == null)
-            {
-                return NotFound();
-            }
+            if (companyType == null) return NotFound();
+            
 
             return View(companyType);
         }
@@ -95,15 +106,26 @@ namespace MSGCompaniesMonitor.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ShowToast = true;
-                ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                ViewBag.ToastType = "error";
-                return View();
+
+                if (ModelState.IsValid)
+                {
+                    await _companiesTypeService.DeleteAsync(id);
+                    TempData["ShowToast"] = true;
+                    TempData["ToastMessage"] = "Record Deleted Successfully";
+                    return RedirectToAction("Index", "CompanyType");
+
+                }
             }
-            await _companiesTypeService.DeleteAsync(id);
-            return RedirectToAction("Index", "CompanyType");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.InnerException.Message);
+
+            }
+            TempData["ShowToast"] = true;
+            ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+            return View();
         }
 
 

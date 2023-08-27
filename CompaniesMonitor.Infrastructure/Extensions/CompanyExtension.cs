@@ -10,13 +10,7 @@ namespace MSGCompaniesMonitor.Extensions
     {
 
 
-        public static async Task<Company> AssignCompanyPartnersAsync(this Company company, IFormCollection formCollection)
-        {
-            List<int> SelectedCompaniesPartner = formCollection["CompaniesPartner"].Select(temp => int.Parse(temp)).ToList();
 
-            company.CompaniesPartner = SelectedCompaniesPartner.Select(partnerId => new CompanyPartner { CompanyId = company.CompanyId, PartnerId = partnerId }).ToList();
-            return company;
-        }
 
         public static async Task<Company> AssignCompanyTypeAsync(this Company company, ApplicationDbContext context,  IFormCollection formCollection)
         {
@@ -27,22 +21,6 @@ namespace MSGCompaniesMonitor.Extensions
             return company;
         }
 
-        public static async Task<Company> EditCompanyPartnersAsync(this Company company, Company companyobj, int ID, IFormCollection formCollection)
-        {
-
-
-            List<int> SelectedCompaniesPartner = formCollection["CompaniesPartner"].Select(temp => int.Parse(temp)).ToList();
-
-            // Clear existing CompaniesPartner
-            companyobj.CompaniesPartner.Clear();
-
-            // Add selected CompaniesPartner
-            foreach (var courseId in SelectedCompaniesPartner)
-            {
-                companyobj.CompaniesPartner.Add(new CompanyPartner { CompanyId = ID, PartnerId = courseId });
-            }
-            return companyobj;
-        }
 
 
         public static async Task<Company> EditCompanyTypeAsync(this Company company, ApplicationDbContext context,Company companyobj, int ID, IFormCollection formCollection)
