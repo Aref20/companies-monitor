@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
 namespace MSGCompaniesMonitor.DTO
 {
     public class DocumentTypeResponse

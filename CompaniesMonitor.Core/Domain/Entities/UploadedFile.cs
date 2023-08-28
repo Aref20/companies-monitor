@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using MSGCompaniesMonitor.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class UploadedFile
     {

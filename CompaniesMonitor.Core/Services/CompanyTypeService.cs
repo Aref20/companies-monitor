@@ -1,8 +1,10 @@
-﻿using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MSGCompaniesMonitor.Services
+namespace CompaniesMonitor.Core.Services
 {
     public class CompanyTypeService : ICompaniesTypeService
     {
@@ -71,8 +73,32 @@ namespace MSGCompaniesMonitor.Services
 
         }
 
+        public async Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync(int id)
+        {
+            try
+            {
+                return await _companiesTypeService.GetAllCompaniesTypeItemsAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        public async Task<CompanyType> GetCompanyTypeByIDAsync(int id)
+        public async Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync()
+        {
+            try
+
+            {
+                return await _companiesTypeService.GetAllCompaniesTypeItemsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+            public async Task<CompanyType> GetCompanyTypeByIDAsync(int id)
         {
             try
             {

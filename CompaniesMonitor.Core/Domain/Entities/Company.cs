@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class Company
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using MSGCompaniesMonitor.Controllers;
-using MSGCompaniesMonitor.ServiceContracts;
+﻿using CompaniesMonitor.Core.ServiceContracts;
+using CompaniesMonitor.UI.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
+
 
 namespace MSGCompaniesMonitor.Filters.ActionFilters
 {
@@ -22,7 +23,7 @@ namespace MSGCompaniesMonitor.Filters.ActionFilters
 
                 if (context.Controller is CompanyController companyController)
                 {
-                    companyController.ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
+                    //companyController.ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
                 }
             }
         }

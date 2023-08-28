@@ -38,12 +38,14 @@
 
                                     <div class="mb-3">
                                         <label class="form-label required" asp-for="Company">Company</label>
-                                        <input disabled class="form-control" asp-for="Company">
+                                        <select disabled class="form-select" asp-for="Company" asp-items="ViewBag.Companies">
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label required" asp-for="Partner">Partner</label>
-                                        <input disabled class="form-control" asp-for="Partner">
+                                        <select disabled class="form-select" asp-for="Partner" asp-items="ViewBag.Partners">
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">

@@ -2,7 +2,7 @@
 using MailKit.Security;
 using MimeKit;
 
-namespace MSGCompaniesMonitor.Mail
+namespace CompaniesMonitor.Shared.Mail
 {
     public class EmailSender : IEmailSender
     {

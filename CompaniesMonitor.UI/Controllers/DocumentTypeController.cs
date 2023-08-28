@@ -1,21 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.ViewModels;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Mvc;
 
 
-namespace MSGCompaniesMonitor.Controllers
+
+namespace CompaniesMonitor.UI.Controllers
 {
     [Route("[Controller]")]
     public class DocumentTypeController : Controller
     {
         readonly private IDocumentsTypeService _documentsTypeService;
         readonly private IUploadedFilesService _uploadedFilesService;
+        readonly private IDocumentsService _documentsService;
+        readonly private ICompaniesService _companiesService;
 
-        public DocumentTypeController(IDocumentsTypeService documentsTypeService,IUploadedFilesService uploadedFilesService)
+        public DocumentTypeController(IDocumentsTypeService documentsTypeService,IUploadedFilesService uploadedFilesService, IDocumentsService documentsService , ICompaniesService companiesService)
         {
             _documentsTypeService = documentsTypeService;
             _uploadedFilesService = uploadedFilesService;
+            _documentsService = documentsService;
+            _companiesService = companiesService;
         }
 
         [HttpGet]
@@ -31,8 +35,8 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync();
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync();
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync();
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync();
             return View();
         }
 
@@ -41,8 +45,8 @@ namespace MSGCompaniesMonitor.Controllers
         public async Task<IActionResult> Create(DocumentType documentType, IFormCollection formCollection)
         {
 
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync();
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync();
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync();
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync();
            
             try
             {
@@ -70,9 +74,9 @@ namespace MSGCompaniesMonitor.Controllers
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
 
-            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            ViewBag.UploadedFiles = await _uploadedFilesService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(documentType.CompanyId);
             return View(documentType);
         }
 
@@ -83,9 +87,9 @@ namespace MSGCompaniesMonitor.Controllers
             var documentTypeObj = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentTypeObj == null) return NotFound();
 
-            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentTypeObj.Id);
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentTypeObj.DocumentId);
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentTypeObj.CompanyId);
+            ViewBag.UploadedFiles = await _uploadedFilesService.GetAllFilesAsync(documentTypeObj.Id);
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync(documentTypeObj.DocumentId);
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(documentTypeObj.CompanyId);
             try
             {
                 if (ModelState.IsValid)
@@ -114,9 +118,9 @@ namespace MSGCompaniesMonitor.Controllers
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
 
-            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            ViewBag.UploadedFiles = await _uploadedFilesService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(documentType.CompanyId);
             return View(documentType);
         }
 
@@ -127,9 +131,9 @@ namespace MSGCompaniesMonitor.Controllers
             var documentType = await _documentsTypeService.GetDocumentTypeByIDAsync(id);
             if (documentType == null) return NotFound();
 
-            ViewBag.UploadedFiles = await _documentsTypeService.GetAllFilesAsync(documentType.Id);
-            ViewBag.Documents = await _documentsTypeService.GetAllDocumentsAsync(documentType.DocumentId);
-            ViewBag.Companies = await _documentsTypeService.GetAllCompaniesAsync(documentType.CompanyId);
+            ViewBag.UploadedFiles = await _uploadedFilesService.GetAllFilesAsync(documentType.Id);
+            ViewBag.Documents = await _documentsService.GetAllDocumentsItemsAsync(documentType.DocumentId);
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(documentType.CompanyId);
             try
             {
                 if (ModelState.IsValid)

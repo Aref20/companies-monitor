@@ -1,12 +1,11 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
 
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class DocumentRepository : IDocumentsRepository
     {
@@ -55,6 +54,17 @@ namespace MSGCompaniesMonitor.Repository
         public async Task<Document> GetDocumentByIDAsync(int id)
         {
             return await _DbSet.FindAsync(id);
+        }
+
+
+        public async Task<List<SelectListItem>> GetAllDocumentsItemsAsync()
+        {
+            return await _context.Documents.Select(temp => new SelectListItem { Value = temp.DocumentId.ToString(), Text = temp.Name }).ToListAsync();
+        }
+
+        public async Task<List<SelectListItem>> GetAllDocumentsItemsAsync(int id)
+        {
+            return await _context.Documents.Select(temp => new SelectListItem { Value = temp.DocumentId.ToString(), Text = temp.Name, Selected = temp.DocumentId == id }).ToListAsync();
         }
 
         public async Task<Pagination<Document>> PaginationAsync(string? search, int page, int pageSize)

@@ -1,8 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    
+    var showToast = TempData["ShowToast"] as bool?;
 }
 
+@if (showToast.HasValue && showToast.Value)
+{
+
+    <script>
+        toastr.options = {
+            "positionClass": "toast-top-left",
+            "timeOut": "3000", // Toast will disappear after 3 seconds
+        }
+
+        toastr.success("@TempData["ToastMessage"]");
+
+    </script>
+}
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">

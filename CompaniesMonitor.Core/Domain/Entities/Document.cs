@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     
     public class Document
@@ -11,8 +10,7 @@ namespace MSGCompaniesMonitor.Models
 
         [Required]
         public string Name { get; set; }
-
-        
+ 
         public  ICollection<DocumentType>? DocumentesType { get; set; }
 
 

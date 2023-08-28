@@ -1,8 +1,6 @@
-﻿
+﻿using Microsoft.AspNetCore.Identity;
 
-using Microsoft.AspNetCore.Identity;
-
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class User : IdentityUser
     {

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CompaniesMonitor.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Models;
-using System;
 
-namespace MSGCompaniesMonitor.Data
+
+namespace CompaniesMonitor.Infrastructure.Data
 {
     public class ApplicationDbContext :  IdentityDbContext<User>
     {

@@ -1,21 +1,20 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
 
 
-
-
-namespace MSGCompaniesMonitor.Controllers
+namespace CompaniesMonitor.UI.Controllers
 {
     [Route("[Controller]")]
     public class CompanyController : Controller
     {
         readonly private ICompaniesService _companiesService;
+        readonly private ICompaniesTypeService _companiesTypeService;
 
-        public CompanyController(ICompaniesService companiesService)
+        public CompanyController(ICompaniesService companiesService, ICompaniesTypeService companiesTypeService)
         {
             _companiesService = companiesService;
+            _companiesTypeService = companiesTypeService;
         }
 
 
@@ -32,7 +31,7 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync();
             return View();
         }
 
@@ -40,7 +39,7 @@ namespace MSGCompaniesMonitor.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Create(Company company, IFormCollection formCollection)
         {
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync();
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync();
             try
             {
                 if (ModelState.IsValid)
@@ -70,7 +69,7 @@ namespace MSGCompaniesMonitor.Controllers
 
             if(company == null) return NotFound();
             
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId);
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync((int)company.CompanyTypeId);
 
             return View(company);
         }
@@ -80,7 +79,7 @@ namespace MSGCompaniesMonitor.Controllers
         public async Task<IActionResult> Edit(Company company, int id, IFormCollection formCollection)
         {
             var companyObj = await _companiesService.GetCompanyByIDAsync(id);
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(companyObj.CompanyTypeId);
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync((int)companyObj.CompanyTypeId);
             try
             {
                 if (ModelState.IsValid)
@@ -109,7 +108,7 @@ namespace MSGCompaniesMonitor.Controllers
         {
             var company = await _companiesService.GetCompanyByIDAsync(id);
             if (company == null) return NotFound();
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(company.CompanyTypeId);
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync((int)company.CompanyTypeId);
 
             return View(company);
         }
@@ -119,7 +118,7 @@ namespace MSGCompaniesMonitor.Controllers
         public async Task<IActionResult> Delete(Company company, int id)
         {
             var companyObj = await _companiesService.GetCompanyByIDAsync(id);
-            ViewBag.CompaniesType = await _companiesService.GetAllCompaniesTypeAsItemsAsync(companyObj.CompanyTypeId);
+            ViewBag.CompaniesType = await _companiesTypeService.GetAllCompaniesTypeItemsAsync((int)companyObj.CompanyTypeId);
             try
             {
                 if (ModelState.IsValid)

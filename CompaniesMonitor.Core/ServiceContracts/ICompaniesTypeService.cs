@@ -1,6 +1,7 @@
-﻿using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MSGCompaniesMonitor.ServiceContracts
+namespace CompaniesMonitor.Core.ServiceContracts
 {
     public interface ICompaniesTypeService
     {
@@ -10,6 +11,8 @@ namespace MSGCompaniesMonitor.ServiceContracts
         Task<CompanyType> DeleteAsync(int id);
         Task<List<CompanyType>> GetAllCompaniesTypeAsync();
         Task<CompanyType> GetCompanyTypeByIDAsync(int id);
+        Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync(int id);
+        Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync();
         Task<Pagination<CompanyType>> PaginationAsync(string? search, int page, int pageSize);
     }
 }

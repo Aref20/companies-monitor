@@ -1,8 +1,9 @@
-﻿using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MSGCompaniesMonitor.Services
+namespace CompaniesMonitor.Core.Services
 {
     public class PartnerService : IPartnersService
     {
@@ -80,6 +81,31 @@ namespace MSGCompaniesMonitor.Services
                 throw ex;
             }
             
+        }
+
+        public async Task<List<SelectListItem>> GetAllPartnersItemsAsync()
+        {
+            try
+            {
+                return await _partnersRepository.GetAllPartnersItemsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+        }
+
+        public async Task<List<SelectListItem>> GetAllPartnersItemsAsync(int id)
+        {
+            try
+            {
+                return await _partnersRepository.GetAllPartnersItemsAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<Pagination<Partner>> PaginationAsync(string? search, int page, int pageSize)

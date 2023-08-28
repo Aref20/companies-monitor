@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.Models;
 
-namespace MSGCompaniesMonitor.Extensions
+namespace CompaniesMonitor.Infrastructure.Extensions
 {
     public static class CompanyExtension
     {

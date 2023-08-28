@@ -1,11 +1,10 @@
-﻿using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace MSGCompaniesMonitor.Services
+namespace CompaniesMonitor.Core.Services
 {
     public class DocumentTypeService : IDocumentsTypeService
     {
@@ -73,31 +72,7 @@ namespace MSGCompaniesMonitor.Services
             
         }
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsync(int id)
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllDocumentsAsync(id); 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
-        }
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsync()
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllDocumentsAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-           
-        }
 
 
         public async Task<DocumentType> GetDocumentTypeByIDAsync(int id)
@@ -126,57 +101,7 @@ namespace MSGCompaniesMonitor.Services
            
         }
 
-        public async Task<List<SelectListItem>> GetAllCompaniesAsync(int id)
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllCompaniesAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-              
-        }
 
-        public async Task<List<SelectListItem>> GetAllCompaniesAsync()
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllCompaniesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
-        }
 
-        public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllFilesAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
-
-        }
-
-        public async Task<List<UploadedFile>> GetAllFilesAsync()
-        {
-            try
-            {
-                return await _documentsTypeRepository.GetAllFilesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-           
-        }
     }
 }

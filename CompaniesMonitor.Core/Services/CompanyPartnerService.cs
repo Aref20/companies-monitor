@@ -1,8 +1,9 @@
-﻿using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.ServiceContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Http;
 
-namespace MSGCompaniesMonitor.Services
+namespace CompaniesMonitor.Core.Services
 {
     public class CompanyPartnerService : ICompaniesPartnersService
     {
@@ -12,12 +13,12 @@ namespace MSGCompaniesMonitor.Services
             _companyPartnerRepository = companyPartnerRepository;
         }
 
-        public async Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner)
+        public async Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner, IFormCollection formCollection)
         {
             try
             {
 
-                return await _companyPartnerRepository.CreateAsync(companyPartner);
+                return await _companyPartnerRepository.CreateAsync(companyPartner, formCollection);
             }
             catch (Exception ex)
             {
@@ -40,12 +41,12 @@ namespace MSGCompaniesMonitor.Services
 
 
 
-        public async Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id)
+        public async Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id, IFormCollection formCollection)
         {
 
             try
             {
-                return await _companyPartnerRepository.EditAsync(companyPartner, id);
+                return await _companyPartnerRepository.EditAsync(companyPartner, id, formCollection);
             }
             catch (Exception ex)
             {

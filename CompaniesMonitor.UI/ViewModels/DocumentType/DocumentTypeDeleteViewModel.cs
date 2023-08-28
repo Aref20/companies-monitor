@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace MSGCompaniesMonitor.ViewModels
 {

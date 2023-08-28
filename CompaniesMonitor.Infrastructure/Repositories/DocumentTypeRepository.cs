@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
+using CompaniesMonitor.Core.Entities;
 
-
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class DocumentTypeRepository : IDocumentsTypeRepository
     {
@@ -116,21 +115,7 @@ namespace MSGCompaniesMonitor.Repository
                 .FirstOrDefaultAsync(temp => temp.Id == id);
         }
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsync(int id)
-        {
-            var documents =  await _context.Documents.Select(temp => new SelectListItem
-            { Value = temp.DocumentId.ToString(), Text = temp.Name, Selected = temp.DocumentId == id }
-            ).ToListAsync();
 
-            return documents;
-        }
-
-        public async Task<List<SelectListItem>> GetAllDocumentsAsync()
-        {
-            return await _context.Documents.Select(temp => new SelectListItem 
-            { Value = temp.DocumentId.ToString(), Text = temp.Name })
-                .ToListAsync();
-        }
 
 
         public async Task<Pagination<DocumentType>> PaginationAsync(string? search, int page, int pageSize)
@@ -174,15 +159,6 @@ namespace MSGCompaniesMonitor.Repository
 
         }
 
-        public async Task<List<SelectListItem>> GetAllCompaniesAsync(int id)
-        {
-            return await _context.Companies.Select(temp => new SelectListItem { Value = temp.CompanyId.ToString(), Text = temp.EnglishName, Selected = temp.CompanyId == id }).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllCompaniesAsync()
-        {
-            return await _context.Companies.Select(temp => new SelectListItem { Value = temp.CompanyId.ToString(), Text = temp.EnglishName}).ToListAsync();
-        }
 
         private async Task DeleteFilesAsync(List<UploadedFile> files)
         {
@@ -238,14 +214,6 @@ namespace MSGCompaniesMonitor.Repository
             }
         }
 
-        public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
-        {
-            return await _context.UploadedFiles.Where(obj => obj.DocumentTypeId == id).ToListAsync();
-        }
 
-        public async Task<List<UploadedFile>> GetAllFilesAsync()
-        {
-            return await _context.UploadedFiles.ToListAsync();
-        }
     }
 }

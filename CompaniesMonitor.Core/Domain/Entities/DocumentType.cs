@@ -1,9 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MSGCompaniesMonitor.Models
+
+namespace CompaniesMonitor.Core.Entities
 {
     public class DocumentType
     {

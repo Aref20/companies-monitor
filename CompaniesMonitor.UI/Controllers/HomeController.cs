@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.DTO;
-using MSGCompaniesMonitor.RepositoryContracts;
 
 
-namespace MSGCompaniesMonitor.Controllers
+
+namespace ompaniesMonitor.UI.Controllers
 {
     public class HomeController : Controller
     {

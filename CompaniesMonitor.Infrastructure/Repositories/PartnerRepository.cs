@@ -1,12 +1,10 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-
-
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class PartnerRepository : IPartnersRepository
     {
@@ -58,6 +56,17 @@ namespace MSGCompaniesMonitor.Repository
         public async Task<Partner> GetPartnerByIDAsync(int id)
         {
             return await _DbSet.FindAsync(id);
+        }
+
+
+        public async Task<List<SelectListItem>> GetAllPartnersItemsAsync()
+        {
+            return await _context.Partners.Select(temp => new SelectListItem { Value = temp.PartnerId.ToString(), Text = temp.EnglishName }).ToListAsync();
+        }
+
+        public async Task<List<SelectListItem>> GetAllPartnersItemsAsync(int id)
+        {
+            return await _context.Partners.Select(temp => new SelectListItem { Value = temp.PartnerId.ToString(), Text = temp.EnglishName, Selected = temp.PartnerId == id}).ToListAsync();
         }
 
         public async Task<Pagination<Partner>> PaginationAsync(string? search, int page, int pageSize)

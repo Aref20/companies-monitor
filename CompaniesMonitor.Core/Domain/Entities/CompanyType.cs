@@ -1,6 +1,6 @@
 ﻿
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class CompanyType
     {

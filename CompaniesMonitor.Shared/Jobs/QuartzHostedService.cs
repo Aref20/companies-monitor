@@ -2,7 +2,7 @@
 using Quartz;
 using Microsoft.Extensions.Hosting;
 
-namespace MSGCompaniesMonitor.Jobs
+namespace CompaniesMonitor.Shared.Jobs
 {
     public class QuartzHostedService : IHostedService
     {

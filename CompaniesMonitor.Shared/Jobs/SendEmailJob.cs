@@ -1,8 +1,8 @@
-﻿using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Services;
+﻿
+using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
 using Quartz;
-namespace MSGCompaniesMonitor.Jobs
+namespace CompaniesMonitor.Shared.Jobs
 {
     public class SendEmailJob : IJob
     {

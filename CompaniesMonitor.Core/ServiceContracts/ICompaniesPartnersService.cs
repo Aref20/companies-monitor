@@ -1,12 +1,12 @@
-﻿using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using Microsoft.AspNetCore.Http;
 
-
-namespace MSGCompaniesMonitor.ServiceContracts
+namespace CompaniesMonitor.Core.ServiceContracts
 {
     public interface ICompaniesPartnersService
     {
-        Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner);
-        Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id);
+        Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner, IFormCollection formCollection);
+        Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id, IFormCollection formCollection);
         Task<CompanyPartner> DeleteAsync(int id);
         Task<List<CompanyPartner>> GetAllCompaniesPartnersAsync();
         Task<CompanyPartner> GetCompanyPartnerByIDAsync(int id);

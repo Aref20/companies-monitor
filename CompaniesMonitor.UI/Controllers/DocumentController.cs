@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.ServiceContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MSGCompaniesMonitor.Controllers
+
+namespace CompaniesMonitor.UI.Controllers
 {
     [Route("[Controller]")]
     public class DocumentController : Controller

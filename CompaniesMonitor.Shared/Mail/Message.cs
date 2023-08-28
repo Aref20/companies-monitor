@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace MSGCompaniesMonitor.Mail
+namespace CompaniesMonitor.Shared.Mail
 {
     public class Message
     {

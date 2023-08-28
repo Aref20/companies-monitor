@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
+using CompaniesMonitor.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.Extensions;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
 
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class CompanyRepository : ICompaniesRepository
     {
@@ -67,31 +67,21 @@ namespace MSGCompaniesMonitor.Repository
             return await _DbSet.Include("CompanyType").ToListAsync();
         }
 
-        public async Task<List<SelectListItem>> GetAllPartnerssAsItemsAsync()
-        {
-            return await _context.Partners.Select(temp => new SelectListItem { Value = temp.PartnerId.ToString(), Text = temp.EnglishName }).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllPartnerssAsItemsAsync(int? id)
-        {
-            return await _context.Partners.Select(temp => new SelectListItem { Value = temp.PartnerId.ToString(), Text = temp.EnglishName, Selected = _context.CompaniesPartner.Any(temp2 => (temp2.PartnerId == temp.PartnerId) && (temp2.CompanyId == id)) }).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync(int? id)
-        {
-            return await _context.CompaniesType.Select(temp => new SelectListItem { Value = temp.Id.ToString(), Text = temp.Name, Selected = temp.Id == id }).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync()
-        {
-            return await _context.CompaniesType.Select(temp => new SelectListItem { Value = temp.Id.ToString(), Text = temp.Name }).ToListAsync();
-        }
 
         public async Task<Company> GetCompanyByIDAsync(int id)
         {
             return await _DbSet.FirstOrDefaultAsync(temp => temp.CompanyId == id);
         }
 
+        public async Task<List<SelectListItem>> GetAllCompaniesItemsAsync(int id)
+        {
+            return await _context.Companies.Select(temp => new SelectListItem { Value = temp.CompanyId.ToString(), Text = temp.EnglishName, Selected = temp.CompanyId == id }).ToListAsync();
+        }
+
+        public async Task<List<SelectListItem>> GetAllCompaniesItemsAsync()
+        {
+            return await _context.Companies.Select(temp => new SelectListItem { Value = temp.CompanyId.ToString(), Text = temp.EnglishName }).ToListAsync();
+        }
 
         public async Task<Pagination<Company>> PaginationAsync(string? search, int page, int pageSize)
         {
@@ -129,15 +119,6 @@ namespace MSGCompaniesMonitor.Repository
             return paginationModel;
         }
 
-        public async Task<List<SelectListItem>> GetAllDocumentsAsItemsAsync()
-        {
-            return await _context.Documents.Select(temp => new SelectListItem { Value = temp.DocumentId.ToString(), Text = temp.Name }).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllDocumentsAsItemsAsync(int? id)
-        {
-            return await _context.Documents.Select(temp => new SelectListItem { Value = temp.DocumentId.ToString(), Text = temp.Name, Selected = temp.DocumentId == id }).ToListAsync();
-        }
 
 
     }

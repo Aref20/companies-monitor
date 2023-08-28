@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.ServiceContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace CompaniesMonitor.UI.Controllers
 {
     public class CompanyPartnerController : Controller
     {
         readonly private ICompaniesPartnersService _companiesPartnersService;
-        public CompanyPartnerController(ICompaniesPartnersService companiesPartnersService)
+        private readonly ICompaniesService _companiesService;
+        private readonly IPartnersService _partnersService;
+        public CompanyPartnerController(ICompaniesPartnersService companiesPartnersService, ICompaniesService companiesService, IPartnersService partnersService)
         {
             _companiesPartnersService = companiesPartnersService;
+            _companiesService = companiesService;
+            _partnersService = partnersService;
         }
 
 
@@ -25,21 +29,23 @@ namespace CompaniesMonitor.UI.Controllers
 
         [HttpGet]
         [Route("[Action]")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync();
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync();
             return View();
         }
 
 
         [HttpPost]
         [Route("[Action]")]
-        public async Task<IActionResult> Create(CompanyPartner companyPartner)
+        public async Task<IActionResult> Create(CompanyPartner companyPartner, IFormCollection formCollection)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _companiesPartnersService.CreateAsync(companyPartner);
+                    await _companiesPartnersService.CreateAsync(companyPartner, formCollection);
                     TempData["ShowToast"] = true;
                     TempData["ToastMessage"] = "Record Inserted Successfully";
                     return RedirectToAction("Index", "CompanyPartner");
@@ -47,8 +53,11 @@ namespace CompaniesMonitor.UI.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.InnerException.Message);
+
+                    ModelState.AddModelError("", ex.Message);
             }
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync();
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync();
             TempData["ShowToast"] = true;
             ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return View();
@@ -58,35 +67,42 @@ namespace CompaniesMonitor.UI.Controllers
         [Route("[Action]/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var partner = await _companiesPartnersService.GetCompanyPartnerByIDAsync(id);
+            var companypartner = await _companiesPartnersService.GetCompanyPartnerByIDAsync(id);
+            if (companypartner == null) return NotFound();
 
-            if (partner == null) return NotFound();
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(companypartner.CompanyId);
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync(companypartner.PartnerId);
 
-            return View(partner);
+            
+
+            return View(companypartner);
         }
 
         [HttpPost]
         [Route("[Action]/{id}")]
-        public async Task<IActionResult> Edit(CompanyPartner companyPartner, int id)
+        public async Task<IActionResult> Edit(CompanyPartner companyPartner, int id ,IFormCollection formCollection)
         {
             var partnerObj = await _companiesPartnersService.GetCompanyPartnerByIDAsync(id);
+
 
             if (partnerObj == null) return NotFound();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _companiesPartnersService.EditAsync(companyPartner, id);
+                    await _companiesPartnersService.EditAsync(companyPartner, id, formCollection);
                     TempData["ShowToast"] = true;
                     TempData["ToastMessage"] = "Record Updated Successfully";
-                    return RedirectToAction("Index", "Partner");
+                    return RedirectToAction("Index", "CompanyPartner");
                 }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.InnerException.Message);
+                ModelState.AddModelError("", ex.Message);
 
             }
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(partnerObj.CompanyId);
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync(partnerObj.PartnerId);
             TempData["ShowToast"] = true;
             ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return View(partnerObj);
@@ -97,8 +113,10 @@ namespace CompaniesMonitor.UI.Controllers
         public async Task<IActionResult> Delete(int id, bool t = false)
         {
             var partner = await _companiesPartnersService.GetCompanyPartnerByIDAsync(id);
-
             if (partner == null) return NotFound();
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(partner.CompanyId);
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync(partner.PartnerId);
+            
 
             return View(partner);
         }
@@ -118,7 +136,7 @@ namespace CompaniesMonitor.UI.Controllers
                     await _companiesPartnersService.DeleteAsync(id);
                     TempData["ShowToast"] = true;
                     TempData["ToastMessage"] = "Record Deleted Successfully";
-                    return RedirectToAction("Index", "Partner");
+                    return RedirectToAction("Index", "CompanyPartner");
 
                 }
             }
@@ -127,6 +145,8 @@ namespace CompaniesMonitor.UI.Controllers
                 ModelState.AddModelError("", ex.InnerException.Message);
 
             }
+            ViewBag.Companies = await _companiesService.GetAllCompaniesItemsAsync(partner.CompanyId);
+            ViewBag.Partners = await _partnersService.GetAllPartnersItemsAsync(partner.PartnerId);
             TempData["ShowToast"] = true;
             ViewBag.ToastMessage = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return View(partner);

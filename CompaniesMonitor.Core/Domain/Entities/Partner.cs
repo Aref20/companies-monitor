@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class Partner
     {
@@ -14,12 +14,9 @@ namespace MSGCompaniesMonitor.Models
         [Required]
         public string ArabicName { get; set; }
 
-
-
-
         public ICollection<CompanyPartner>? CompaniesPartner { get; set; }
 
-        /*public Company? Company { get; set; }*/
+
 
 
     }

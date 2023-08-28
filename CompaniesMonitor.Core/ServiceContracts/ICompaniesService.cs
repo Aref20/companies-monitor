@@ -1,9 +1,8 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MSGCompaniesMonitor.Models;
 
-namespace MSGCompaniesMonitor.ServiceContracts
+namespace CompaniesMonitor.Core.ServiceContracts
 {
     public interface ICompaniesService
     {
@@ -12,9 +11,9 @@ namespace MSGCompaniesMonitor.ServiceContracts
         Task<Company> EditAsync(Company company, int id, IFormCollection formCollection);
         Task<Company> DeleteAsync(int id);
         Task<List<Company>> GetAllCompaniesAsync();
-        Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync(int? id);
-        Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync();
         Task<Company> GetCompanyByIDAsync(int id);
+        Task<List<SelectListItem>> GetAllCompaniesItemsAsync(int id);
+        Task<List<SelectListItem>> GetAllCompaniesItemsAsync();
         Task<Pagination<Company>> PaginationAsync(string? search, int page, int pageSize);
     }
 }

@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MSGCompaniesMonitor.ServiceContracts;
-using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Mvc;
 
 
 
-namespace MSGCompaniesMonitor.Controllers
+
+namespace CompaniesMonitor.UI.Controllers
 {
     [Route("[Controller]")]
     public class CompanyTypeController : Controller

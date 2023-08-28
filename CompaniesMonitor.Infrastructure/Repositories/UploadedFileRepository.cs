@@ -1,12 +1,12 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
 
 
 
-namespace MSGCompaniesMonitor.Repository
+
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class UploadedFileRepository : IUploadedFilesRepository
     {
@@ -24,7 +24,15 @@ namespace MSGCompaniesMonitor.Repository
 
         }
 
+        public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
+        {
+            return await _DbSet.Where(obj => obj.DocumentTypeId == id).ToListAsync();
+        }
 
+        public async Task<List<UploadedFile>> GetAllFilesAsync()
+        {
+            return await _DbSet.ToListAsync();
+        }
 
         public async Task<UploadedFile> DeleteAsync(int id)
         {

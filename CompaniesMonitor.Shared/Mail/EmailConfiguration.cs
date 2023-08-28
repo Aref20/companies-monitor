@@ -1,4 +1,4 @@
-﻿namespace MSGCompaniesMonitor.Mail
+﻿namespace CompaniesMonitor.Shared.Mail
 {
     public class EmailConfiguration
     {

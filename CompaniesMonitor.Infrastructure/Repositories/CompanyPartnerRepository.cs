@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class CompanyPartnerRepository : ICompaniesPartnersRepository
     {
@@ -17,8 +18,22 @@ namespace MSGCompaniesMonitor.Repository
             _DbSet = _context.CompaniesPartner;
         }
 
-        public async Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner)
+        public async Task<CompanyPartner> CreateAsync(CompanyPartner companyPartner, IFormCollection formCollection)
         {
+            var company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["Company"]));
+
+            var partner = await _context.Partners.FirstOrDefaultAsync(obj => obj.PartnerId == int.Parse(formCollection["Partner"]));
+
+            //check if sum of shard JD from partners not exced the company capitalJD
+            var sumOfSharedJD = await _DbSet.Where(obj => obj.CompanyId == company.CompanyId).SumAsync(obj => obj.SharedJD);
+
+            var sum = sumOfSharedJD + companyPartner.SharedJD;
+
+            if (sum > company.CapitalJD)
+                throw new Exception("Sum of shared JD from partners exced the company capitalJD");
+
+            companyPartner.Partner = partner;
+            companyPartner.Company = company;
             _DbSet.Add(companyPartner);
             await _context.SaveChangesAsync();
             return companyPartner;
@@ -34,12 +49,24 @@ namespace MSGCompaniesMonitor.Repository
 
 
 
-        public async Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id)
+        public async Task<CompanyPartner> EditAsync(CompanyPartner companyPartner, int id, IFormCollection formCollection)
         {
             var companyPartnerObj = await _DbSet.FindAsync(id);
 
-            companyPartnerObj.Partner = companyPartner.Partner;
-            companyPartnerObj.Company = companyPartner.Company;
+            var company = await _context.Companies.FirstOrDefaultAsync(obj => obj.CompanyId == int.Parse(formCollection["Company"]));
+
+            var partner = await _context.Partners.FirstOrDefaultAsync(obj => obj.PartnerId == int.Parse(formCollection["Partner"]));
+
+            //check if sum of shard JD from partners not exced the company capitalJD
+            var sumOfSharedJD = await _DbSet.Where(obj => obj.CompanyId == company.CompanyId).SumAsync(obj => obj.SharedJD);
+
+            var sum = sumOfSharedJD + companyPartner.SharedJD ;
+
+            if (sum > company.CapitalJD)
+                throw new Exception("Sum of shared JD from partners exced the company capitalJD");
+
+            companyPartnerObj.Partner = partner;
+            companyPartnerObj.Company = company;
             companyPartnerObj.SharedJD = companyPartner.SharedJD;
             companyPartnerObj.Percentage = companyPartner.Percentage;
 

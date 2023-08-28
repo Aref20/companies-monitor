@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace MSGCompaniesMonitor.CustomModelBinders
 {

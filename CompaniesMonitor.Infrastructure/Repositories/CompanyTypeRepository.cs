@@ -1,12 +1,11 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MSGCompaniesMonitor.Data;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
-
-
-namespace MSGCompaniesMonitor.Repository
+namespace CompaniesMonitor.Infrastructure.Repository
 {
     public class CompanyTypeRepository : ICompaniesTypeRepository
     {
@@ -61,6 +60,15 @@ namespace MSGCompaniesMonitor.Repository
             return await _DbSet.FindAsync(id);
         }
 
+        public async Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync(int id)
+        {
+            return await _context.CompaniesType.Select(temp => new SelectListItem { Value = temp.Id.ToString(), Text = temp.Name, Selected = temp.Id == id }).ToListAsync();
+        }
+
+        public async Task<List<SelectListItem>> GetAllCompaniesTypeItemsAsync()
+        {
+            return await _context.CompaniesType.Select(temp => new SelectListItem { Value = temp.Id.ToString(), Text = temp.Name }).ToListAsync();
+        }
         public async Task<Pagination<CompanyType>> PaginationAsync(string? search, int page, int pageSize)
         {
             var totalRecords = await _DbSet.CountAsync();
@@ -98,6 +106,8 @@ namespace MSGCompaniesMonitor.Repository
 
 
         }
+
+
     }
 
 

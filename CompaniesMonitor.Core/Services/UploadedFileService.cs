@@ -1,13 +1,8 @@
-﻿
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
 
-using MSGCompaniesMonitor.Models;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.ServiceContracts;
-
-
-
-
-namespace MSGCompaniesMonitor.Service
+namespace CompaniesMonitor.Core.Services
 {
     public class UploadedFileService : IUploadedFilesService
     {
@@ -32,6 +27,33 @@ namespace MSGCompaniesMonitor.Service
                 throw ex;
             }
           
+        }
+
+        public async Task<List<UploadedFile>> GetAllFilesAsync(int id)
+        {
+            try
+            {
+                return await _UploadedFilesRepository.GetAllFilesAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+        public async Task<List<UploadedFile>> GetAllFilesAsync()
+        {
+            try
+            {
+                return await _UploadedFilesRepository.GetAllFilesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 

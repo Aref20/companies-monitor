@@ -1,7 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MSGCompaniesMonitor.Models
+namespace CompaniesMonitor.Core.Entities
 {
     public class CompanyPartner
     {
@@ -16,7 +15,7 @@ namespace MSGCompaniesMonitor.Models
         public double? Percentage { get; set; }
 
         // Navigation properties to represent the related entities
-        public Company Company { get; set; }
-        public Partner Partner { get; set; }
+        public Company? Company { get; set; }
+        public Partner? Partner { get; set; }
     }
 }

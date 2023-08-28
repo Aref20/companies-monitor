@@ -2,7 +2,7 @@
 using Quartz;
 using Quartz.Spi;
 
-namespace MSGCompaniesMonitor.Jobs
+namespace CompaniesMonitor.Shared.Jobs
 {
     public class JobFactory : IJobFactory
     {

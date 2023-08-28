@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-
-
-using MSGCompaniesMonitor.Models;
+﻿using CompaniesMonitor.Core.Entities;
+using CompaniesMonitor.Core.RepositoryContracts;
+using CompaniesMonitor.Core.ServiceContracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MSGCompaniesMonitor.RepositoryContracts;
-using MSGCompaniesMonitor.ServiceContracts;
-namespace MSGCompaniesMonitor.Services
+
+namespace CompaniesMonitor.Core.Services
 {
     public class CompanyService : ICompaniesService
     {
@@ -46,7 +45,6 @@ namespace MSGCompaniesMonitor.Services
         }
 
 
-
         public async Task<Company> EditAsync(Company company, int id, IFormCollection formCollection)
         {
 
@@ -62,31 +60,6 @@ namespace MSGCompaniesMonitor.Services
             }
         }
 
-
-        public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync(int? id)
-        {
-            try 
-            { 
-                return await _companyRepository.GetAllCompaniesTypeAsItemsAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<List<SelectListItem>> GetAllCompaniesTypeAsItemsAsync()
-        {
-            try 
-
-            { 
-                return await _companyRepository.GetAllCompaniesTypeAsItemsAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-}
 
 
         public async Task<List<Company>> GetAllCompaniesAsync()
@@ -113,7 +86,34 @@ namespace MSGCompaniesMonitor.Services
             {
                 throw ex;
             }
-}
+        }
+
+
+        public async Task<List<SelectListItem>> GetAllCompaniesItemsAsync(int id)
+        {
+            try
+            {
+                return await _companyRepository.GetAllCompaniesItemsAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<List<SelectListItem>> GetAllCompaniesItemsAsync()
+        {
+            try
+            {
+                return await _companyRepository.GetAllCompaniesItemsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         public async Task<Pagination<Company>> PaginationAsync(string? search, int page, int pageSize)
         {
@@ -126,7 +126,7 @@ namespace MSGCompaniesMonitor.Services
                 throw ex;
             }
 
-}
+        }
 
 
     }
