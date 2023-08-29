@@ -14,18 +14,9 @@
 </div>
 
 
-
-<br>
-
 <div align="center">
-  <a href="https://www.linkedin.com/in/aref-alhamad-07b98016b/">Linkidin</a>
+  <a href="https://www.linkedin.com/in/aref-alhamad-07b98016b/">|Linkidin|</a>
 </div>
-
-
-
-<br>
-
-
 
 ## Table of Contents
 
