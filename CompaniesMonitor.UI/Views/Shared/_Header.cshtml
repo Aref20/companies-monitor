@@ -18,8 +18,12 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-             
-                    <a asp-controller="Account" asp-action="Register" class="dropdown-item">Add User</a>
+                    
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="dropdown-item">Add User</a>
+                    }
+
                     <a asp-controller="Account" asp-action="Logout" class="dropdown-item">Logout</a>
                 </div>
             </div>

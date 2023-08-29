@@ -39,15 +39,40 @@
 
                                     <div class="mb-3">
                                         <label class="form-label required" asp-for="Company">Company</label>
-                                        <select class="form-select" asp-for="Company" asp-items="ViewBag.Companies">
+                                        <select class="form-select" asp-for="Company">
+                                            @foreach (var item in ViewBag.CompaniesItems)
+                                            {
+                                                @if (item.Selected)
+                                                {
+                                                    <option value=@item.Value selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value=@item.Value>@item.Text</option>
+                                                }
+                                            }
                                         </select>
                                     </div>
 
+
                                     <div class="mb-3">
                                         <label class="form-label required" asp-for="Document">Document</label>
-                                        <select class="form-select" asp-for="Document" asp-items="ViewBag.Documents">
+                                        <select class="form-select" asp-for="Document">
+                                            @foreach (var item in ViewBag.DocumentsItems)
+                                            {
+                                                @if (item.Selected)
+                                                {
+                                                    <option value=@item.Value selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value=@item.Value>@item.Text</option>
+                                                }
+                                            }
                                         </select>
                                     </div>
+
+ 
 
                                     <div class="mb-3">
                                         <label class="form-label required" asp-for="Amount">Amount</label>

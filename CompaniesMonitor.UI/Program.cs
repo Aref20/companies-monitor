@@ -1,5 +1,3 @@
-
-
 using CompaniesMonitor.UI.StartupExtensions;
 
 var builder = WebApplication.CreateBuilder(args);

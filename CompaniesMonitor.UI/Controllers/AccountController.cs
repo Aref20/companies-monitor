@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 
 namespace CompaniesMonitor.UI.Controllers
 {
 
     [Route("[controller]/[action]")]
-    [AllowAnonymous]
+    
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -84,14 +85,14 @@ namespace CompaniesMonitor.UI.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(User user)

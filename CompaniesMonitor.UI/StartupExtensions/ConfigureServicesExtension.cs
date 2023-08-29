@@ -61,15 +61,26 @@ namespace CompaniesMonitor.UI.StartupExtensions
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            });
-
             services.ConfigureApplicationCookie(options => {
                 options.LoginPath = "/Account/Login";
             });
+
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); //enforces authoriation policy (user must be authenticated) for all the action methods
+
+                options.AddPolicy("Auth", policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        var user = context.User.IsInRole("Admin");
+                        return user;
+                    });
+                });
+            });
+
+
 
             services.AddHttpLogging(options =>
             {

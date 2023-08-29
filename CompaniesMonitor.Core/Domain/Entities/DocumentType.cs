@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace CompaniesMonitor.Core.Entities
@@ -29,8 +31,9 @@ namespace CompaniesMonitor.Core.Entities
         public IEnumerable<UploadedFile>? Files { get; set; }
 
         //Foreign key to represent the one-to-many relationship
-
         public int DocumentId { get; set; }
         public Document? Document { get; set; }
+
+
     }
 }
