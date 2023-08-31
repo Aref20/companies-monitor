@@ -4,7 +4,7 @@ namespace CompaniesMonitor.Core.Entities
 {
     public class CompanyPartner
     {
-
+        [Key]
         public int CompanyPartnerId { get; set; }
         // Composite key to uniquely identify the relationship
         public int CompanyId { get; set; }
@@ -12,7 +12,7 @@ namespace CompaniesMonitor.Core.Entities
 
         [Required]
         public double SharedJD { get; set; }
-        public double? Percentage { get; set; }
+        public double? Percentage { get; set; } 
 
         // Navigation properties to represent the related entities
         public Company? Company { get; set; }
