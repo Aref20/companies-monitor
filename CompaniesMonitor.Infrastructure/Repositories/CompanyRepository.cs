@@ -56,6 +56,8 @@ namespace CompaniesMonitor.Infrastructure.Repository
             companyobj.ArabicNotes = company.ArabicNotes;
             companyobj.EnglishNotes = company.EnglishNotes;
             companyobj.Number = company.Number;
+            companyobj.Nationality = company.Nationality;
+            companyobj.NationalID = company.NationalID;
             companyobj.CapitalJD = company.CapitalJD;
 
             await _context.SaveChangesAsync();
@@ -106,7 +108,13 @@ namespace CompaniesMonitor.Infrastructure.Repository
 
                 var filterdpaginationModel = new Pagination<Company>
                 {
-                    Data = await _DbSet.Include("CompanyType").Where(temp => temp.EnglishName.Contains(search)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
+                    Data = await _DbSet.Include("CompanyType").Where((temp => temp.EnglishName.Contains(search)
+                    || temp.ArabicName.Contains(search) || temp.CompanyId.ToString().Contains(search) || temp.Number.Contains(search)
+                    || temp.Nationality.Contains(search) || temp.CreatedDate.ToString().Contains(search) || temp.CloseDate.ToString().Contains(search)
+                    || temp.NationalID.Contains(search) || temp.CapitalJD.ToString().Contains(search)
+                    || temp.CompanyType.Name.Contains(search)
+                    )
+                    ).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
                     TotalRecords = await _DbSet.Where(temp => temp.EnglishName.Contains(search)).CountAsync(),
                     PageSize = pageSize,
                     CurrentPage = page

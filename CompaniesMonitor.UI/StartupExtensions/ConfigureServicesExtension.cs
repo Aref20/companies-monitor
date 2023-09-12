@@ -30,33 +30,36 @@ namespace CompaniesMonitor.UI.StartupExtensions
                     ), ServiceLifetime.Scoped);
 
 
-            services.AddScoped<IDocumentsTypeRepository, DocumentTypeRepository>();
-            services.AddScoped<IDocumentsRepository, DocumentRepository>();
-            services.AddScoped<ICompaniesTypeRepository, CompanyTypeRepository>();
-            services.AddScoped<IPartnersRepository, PartnerRepository>();
-            services.AddScoped<ICompaniesRepository, CompanyRepository>();
-            services.AddScoped<IUploadedFilesRepository, UploadedFileRepository>();
-            services.AddScoped<ICompaniesPartnersRepository, CompanyPartnerRepository>();
+            services.AddTransient<IDocumentsTypeRepository, DocumentTypeRepository>();
+            services.AddTransient<IDocumentsRepository, DocumentRepository>();
+            services.AddTransient<ICompaniesTypeRepository, CompanyTypeRepository>();
+            services.AddTransient<IPartnersRepository, PartnerRepository>();
+            services.AddTransient<ICompaniesRepository, CompanyRepository>();
+            services.AddTransient<IUploadedFilesRepository, UploadedFileRepository>();
+            services.AddTransient<ICompaniesPartnersRepository, CompanyPartnerRepository>();
 
-            services.AddScoped<IDocumentsTypeService, DocumentTypeService>();
-            services.AddScoped<IDocumentsService, DocumentService>();
-            services.AddScoped<ICompaniesTypeService, CompanyTypeService>();
-            services.AddScoped<IPartnersService, PartnerService>();
-            services.AddScoped<ICompaniesService, CompanyService>();
-            services.AddScoped<IUploadedFilesService, UploadedFileService>();
-            services.AddScoped<ICompaniesPartnersService, CompanyPartnerService>();
+            services.AddTransient<IDocumentsTypeService, DocumentTypeService>();
+            services.AddTransient<IDocumentsService, DocumentService>();
+            services.AddTransient<ICompaniesTypeService, CompanyTypeService>();
+            services.AddTransient<IPartnersService, PartnerService>();
+            services.AddTransient<ICompaniesService, CompanyService>();
+            services.AddTransient<IUploadedFilesService, UploadedFileService>();
+            services.AddTransient<ICompaniesPartnersService, CompanyPartnerService>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
             //Quartz Jobs 
             services.AddSingleton<IJobFactory, JobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            services.AddScoped<SendEmailJob>();
+            services.AddSingleton<SendEmailJob>();
             services.AddHostedService<QuartzHostedService>();
 
             var emailConfig = configuration
                     .GetSection("EmailConfiguration")
                     .Get<EmailConfiguration>();
+
             services.AddSingleton(emailConfig);
 
-            services.AddScoped<IEmailSender, EmailSender>();
+            
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();

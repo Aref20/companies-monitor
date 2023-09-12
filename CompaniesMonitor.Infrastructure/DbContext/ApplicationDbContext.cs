@@ -90,7 +90,7 @@ namespace CompaniesMonitor.Infrastructure.Data
 
             PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
 
-            user.PasswordHash = "AQAAAAIAAYagAAAAEBWlgwFExXEnUnP3scGEKf/7yB9+4AgPQ22jHtG/X1rcYbPw/LhU6okV4AKn/TqqwA==";//passwordHasher.HashPassword(user, "Aaaa@1111");
+            user.PasswordHash = "AQAAAAIAAYagAAAAEBWlgwFExXEnUnP3scGEKf/7yB9+4AgPQ22jHtG/X1rcYbPw/LhU6okV4AKn/TqqwA==";//passwordHasher.HashPassword(user, "");
 
             builder.Entity<User>().HasData(user);
         }

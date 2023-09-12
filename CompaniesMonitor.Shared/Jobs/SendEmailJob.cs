@@ -1,23 +1,23 @@
-﻿
-using CompaniesMonitor.Core.Entities;
-using CompaniesMonitor.Core.ServiceContracts;
-using Quartz;
+﻿using Quartz;
 namespace CompaniesMonitor.Shared.Jobs
 {
     public class SendEmailJob : IJob
     {
-        private readonly IDocumentsTypeService _documentsTypeService;
-        public SendEmailJob(IDocumentsTypeService documentsTypeService)
-        {
-            _documentsTypeService = documentsTypeService;
-        }
+        
+        /*  private readonly IDocumentsTypeService _documentsTypeService;
+            public SendEmailJob(IDocumentsTypeService documentsTypeService)
+            {
+                _documentsTypeService = documentsTypeService;
+            }*/
         public async Task Execute(IJobExecutionContext context)
         {
-            if (true) { 
-            Console.WriteLine(DateTime.Now.Date);
+            if (true) {
+
+                Console.WriteLine(1);
             }
+
             //get the day only
-            var Datenow = DateTime.Now.Date ;
+        /*    var Datenow = DateTime.Now.Date ;
 
                List<DocumentType> documentsType = await _documentsTypeService.GetAllDocumentsTypeAsync();
 
@@ -30,7 +30,7 @@ namespace CompaniesMonitor.Shared.Jobs
                           Console.WriteLine("Document ID {documentType.Id} will expire in {documentType.ExpireyDate}", documentType.Id, documentType.ExpireyDate);
                       }
                   }
-
+        */
 
         }
     }

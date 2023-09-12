@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CompaniesMonitor.Core\CompaniesMonitor.Core.csproj" />
-    <ProjectReference Include="..\CompaniesMonitor.Shared\CompaniesMonitor.Shared.csproj" />
   </ItemGroup>
 
 </Project>

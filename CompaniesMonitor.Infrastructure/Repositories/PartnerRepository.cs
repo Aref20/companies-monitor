@@ -40,8 +40,8 @@ namespace CompaniesMonitor.Infrastructure.Repository
 
             partnerObj.ArabicName = partner.ArabicName;
             partnerObj.EnglishName = partner.ArabicName;
+            partnerObj.Nationality = partner.Nationality;
 
-           
             await _context.SaveChangesAsync();
             return partnerObj;
         }
@@ -92,7 +92,8 @@ namespace CompaniesMonitor.Infrastructure.Repository
                     
                     var filterdpaginationModel = new Pagination<Partner>
                     {
-                        Data = await _DbSet.Where(temp => temp.EnglishName.Contains(search)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
+                        Data = await _DbSet.Where(temp => (temp.EnglishName.Contains(search) || temp.PartnerId.ToString().Contains(search)
+                        || temp.ArabicName.Contains(search) || temp.Nationality.Contains(search))).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
                         TotalRecords = await _DbSet.Where(temp => temp.EnglishName.Contains(search)).CountAsync(),
                         PageSize = pageSize,
                         CurrentPage = page

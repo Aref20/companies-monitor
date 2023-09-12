@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompaniesMonitor.UI.Controllers
 {
+    [Route("[controller]")]
     public class CompanyPartnerController : Controller
     {
         readonly private ICompaniesPartnersService _companiesPartnersService;

@@ -14,6 +14,9 @@ namespace CompaniesMonitor.Core.Entities
         [Required]
         public string ArabicName { get; set; }
 
+        [Required]
+        public string Nationality { get; set; }
+
         public ICollection<CompanyPartner>? CompaniesPartner { get; set; }
 
 

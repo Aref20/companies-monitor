@@ -14,6 +14,12 @@ namespace CompaniesMonitor.Core.Entities
         [Required]
         public string ArabicName { get; set; }
 
+        [Required]
+        public string Nationality { get; set; }
+
+        [Required]
+        public string? NationalID { get; set; }
+
         public string? Number { get; set; }
 
         [DataType(DataType.Date)]

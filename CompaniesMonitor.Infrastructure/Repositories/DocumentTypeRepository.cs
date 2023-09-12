@@ -144,7 +144,11 @@ namespace CompaniesMonitor.Infrastructure.Repository
 
                 var filterdpaginationModel = new Pagination<DocumentType>
                 {
-                    Data = await _DbSet.Where(temp => temp.Document.Name.Contains(search)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
+                    Data = await _DbSet.Where((temp => temp.Document.Name.Contains(search)
+                    || temp.Company.EnglishName.Contains(search) || temp.StartDate.ToString().Contains(search)
+                    || temp.ExpireyDate.ToString().Contains(search) || temp.Amount.ToString().Contains(search)
+                    || temp.Id.ToString().Contains(search)
+                    )).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
                     TotalRecords = await _DbSet.Where(temp => temp.Document.Name.Contains(search)).CountAsync(),
                     PageSize = pageSize,
                     CurrentPage = page

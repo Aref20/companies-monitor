@@ -114,7 +114,9 @@ namespace CompaniesMonitor.Infrastructure.Repository
 
                 var filterdpaginationModel = new Pagination<CompanyPartner>
                 {
-                    Data = await _DbSet.Where(temp => temp.Company.EnglishName.Contains(search)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
+                    Data = await _DbSet.Where(temp => 
+                    (temp.Company.EnglishName.Contains(search)) || temp.Partner.EnglishName.Contains(search) || temp.CompanyPartnerId.ToString().Contains(search)
+                    || temp.SharedJD.ToString().Contains(search)).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(),
                     TotalRecords = await _DbSet.Where(temp => temp.Company.EnglishName.Contains(search)).CountAsync(),
                     PageSize = pageSize,
                     CurrentPage = page

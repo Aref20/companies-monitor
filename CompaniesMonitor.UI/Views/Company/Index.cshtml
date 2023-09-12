@@ -68,10 +68,12 @@
 
                                         <th>English Name</th>
                                         <th>Arabic Name</th>
-                                        <th>Number</th>
-                                        <th>Created Date</th>
-                                        <th>Close Date</th>
-                                        <th>CapitalJD</th>
+                                        <th>Registration Number</th>
+                                        <th>Nationality</th>
+                                        <th>National ID</th>
+                                        <th>Registration certificate from</th>
+                                        <th>Registration certificate to</th>
+                                        <th>Capital JD</th>
                                         <th>Company Type</th>
 
                                         
@@ -88,10 +90,12 @@
                                             <td style="width:10%">@obj.EnglishName</td>
                                             <td style="width:10%">@obj.ArabicName</td>
                                             <td style="width:10%">@obj.Number</td>
+                                            <td style="width:10%">@obj.Nationality</td>
+                                            <td style="width:10%">@obj.NationalID</td>
                                             <td style="width:10%">@obj.CreatedDate</td>
                                             <td style="width:10%">@obj.CloseDate</td>
                                             <td style="width:10%">@obj.CapitalJD</td>
-                                            <td style="width:10%">@obj.CompanyType.Name</td>
+                                            <td style="width:10%">@obj.CompanyType?.Name</td>
 
 
                                             <td>
