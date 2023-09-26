@@ -1,0 +1,138 @@
+﻿@model  Pagination<DocumentType>
+
+@{
+    ViewData["Title"] = "Notifications";
+
+}
+
+<div class="page-wrapper">
+    <!-- Page header -->
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header ">
+
+                            <div class="col-6">
+                                <h3 class="card-title ">Notifications</h3>
+                            </div>
+
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <div class="d-flex">
+                                <div class="text-secondary">
+                                    Show
+                                    <div class="mx-2 d-inline-block ">
+                                        <input type="text" class="form-control form-control-sm" value="@Model.Data.Count" size="3" aria-label="Invoices count" disabled>
+                                    </div>
+                                    entries
+                                </div>
+
+
+                                    <div class="ms-auto text-secondary">
+                                        
+                                            <div class="ms-2 d-inline-block" >
+                                                    <form asp-controller="DocumentType" asp-action="Index" method="get" style="display: inline-flex;">
+                                                        <input type="text" class="form-control form-control-sm" style="margin-right:5px" placeholder="Search By Name" aria-label="Search" name="search"  value="@ViewBag.searchvalue">
+                                                        <input type="submit" class="btn btn-primary " value="search">
+                                                    </form>
+                                            </div>
+                                        
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="w-1">ID</th>
+
+                                        <th>Company Name</th>
+
+                                        <th>Document Name</th>
+
+                                        <th>Start Date</th>
+
+                                        <th>Expirey Date</th>
+
+                                        <th>Amount</th>   
+
+                                        <th>Action</th>
+
+                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var obj in Model.Data)
+                                    {
+                                        <tr>
+
+                                            <td><span class="text-secondary align-middle">@obj.Id</span></td>
+                                            <td style="width:20%">@obj.Company.EnglishName</td>
+                                            <td style="width:20%">@obj.Document.Name</td>
+                                            <td style="width:20%">@obj.StartDate</td>
+                                            <td style="width:20%">@obj.ExpireyDate</td>
+                                            <td style="width:20%">@obj.Amount</td>
+                                            
+                                            <td>
+                                                   
+                                                        <a asp-controller="DocumentType" asp-action="Edit" asp-route-id="@obj.Id">
+                                                           Edit
+                                                        </a>
+                                         
+                                                
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer d-flex align-items-center">
+                            <p class="m-0 text-secondary">Showing <span>1</span> to <span>@Model.Data.Count</span> of <span>@Model.TotalRecords</span> entries</p>
+                            <ul class="pagination m-0 ms-auto">
+
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-search="@ViewBag.searchvalue">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg>
+                                            prev
+                                        </a>
+                                    </li>
+                                }
+
+
+                                <li class="page-item">
+                                    <a class="page-link" > 
+                                    Page @(Model.CurrentPage) of @Model.TotalPages
+                                     </a>
+                                </li>
+
+
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-search="@ViewBag.searchvalue">
+                                        next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg>
+                                    </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

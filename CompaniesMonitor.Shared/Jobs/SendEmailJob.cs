@@ -11,10 +11,7 @@ namespace CompaniesMonitor.Shared.Jobs
             }*/
         public async Task Execute(IJobExecutionContext context)
         {
-            if (true) {
 
-                Console.WriteLine(1);
-            }
 
             //get the day only
         /*    var Datenow = DateTime.Now.Date ;

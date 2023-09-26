@@ -28,7 +28,7 @@ namespace CompaniesMonitor.Shared.Jobs
             var trigger = TriggerBuilder.Create()
                 .WithIdentity("sendEmailTrigger", "group1")
                 .StartNow()
-                .WithCronSchedule("0/1 * * * * ?")//("0 0 8,18 * * ?") // Execute at 8 AM and 6 PM
+                .WithCronSchedule("0 0 8,18 * * ?") // Execute at 8 AM and 6 PM ("0/1 * * * * ?")//
                 .Build();
 
             await scheduler.ScheduleJob(jobDetail, trigger, cancellationToken);
