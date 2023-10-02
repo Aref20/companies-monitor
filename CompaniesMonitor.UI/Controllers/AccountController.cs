@@ -22,14 +22,16 @@ namespace CompaniesMonitor.UI.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "Admin")]
+        //  [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user)

@@ -21,8 +21,8 @@ namespace CompaniesMonitor.UI.Controllers
         {
             // Calculate the start and end dates for the upcoming week or less
             DateTime today = DateTime.Today;
-            DateTime nextWeekStart = today;
-            DateTime nextWeekEnd = today.AddDays(7);
+            DateTime nextMonthStart = today;
+            DateTime nextMonthEnd = today.AddDays(31);
 
             ViewBag.searchvalue = search;
 
@@ -30,7 +30,7 @@ namespace CompaniesMonitor.UI.Controllers
 
             // Filter documents that will expire in the upcoming week or less
             var filtered = paginationModel.Data
-                .Where(doc => doc.ExpireyDate >= nextWeekStart && doc.ExpireyDate <= nextWeekEnd);
+                .Where(doc =>  doc.ExpireyDate <= nextMonthEnd);
 
             var filterdpaginationModel = new Pagination<DocumentType>
             {

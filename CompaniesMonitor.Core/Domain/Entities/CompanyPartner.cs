@@ -12,7 +12,7 @@ namespace CompaniesMonitor.Core.Entities
 
         [Required]
         public double SharedJD { get; set; }
-        public double? Percentage { get; set; } 
+        public string? Percentage { get; set; } 
 
         // Navigation properties to represent the related entities
         public Company? Company { get; set; }

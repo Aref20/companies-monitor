@@ -90,7 +90,12 @@ namespace CompaniesMonitor.Infrastructure.Data
 
             PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
 
-            user.PasswordHash = "AQAAAAIAAYagAAAAEBWlgwFExXEnUnP3scGEKf/7yB9+4AgPQ22jHtG/X1rcYbPw/LhU6okV4AKn/TqqwA==";//passwordHasher.HashPassword(user, "");
+            // Define the password you want to set
+            string passwordToHash = "Aaaa@1111";
+
+            // Hash the password and set it for the user
+            user.PasswordHash = passwordHasher.HashPassword(user, passwordToHash);
+
 
             builder.Entity<User>().HasData(user);
         }
@@ -99,7 +104,7 @@ namespace CompaniesMonitor.Infrastructure.Data
         {
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole() { Id = "fab4fac1-c546-41de-aebc-a14da6895711", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new IdentityRole() { Id = "c7b013f0-5201-4317-abd8-c211f91b7330", Name = "User", ConcurrencyStamp = "2", NormalizedName = "Human Resource" }
+                new IdentityRole() { Id = "c7b013f0-5201-4317-abd8-c211f91b7330", Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
                 );
         }
 

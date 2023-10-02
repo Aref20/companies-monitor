@@ -32,7 +32,7 @@ namespace CompaniesMonitor.Infrastructure.Repository
             if (sum > company.CapitalJD)
                 throw new Exception("Sum of shared JD from partners exced the company capitalJD");
 
-            companyPartner.Percentage = companyPartner.SharedJD / company.CapitalJD;
+            companyPartner.Percentage = ((companyPartner.SharedJD / company.CapitalJD) * 100).ToString("0.#####") + "%";
             companyPartner.Partner = partner;
             companyPartner.Company = company;
             _DbSet.Add(companyPartner);
@@ -63,10 +63,10 @@ namespace CompaniesMonitor.Infrastructure.Repository
 
             var sum = sumOfSharedJD + companyPartner.SharedJD ;
 
-            if (sum > company.CapitalJD)
+            if (sum > company.CapitalJD )
                 throw new Exception("Sum of shared JD from partners exced the company capitalJD");
 
-            companyPartner.Percentage = companyPartner.SharedJD / company.CapitalJD;
+            companyPartner.Percentage = ((companyPartner.SharedJD / company.CapitalJD) * 100).ToString("0.#####") + "%";
             companyPartnerObj.Partner = partner;
             companyPartnerObj.Company = company;
             companyPartnerObj.SharedJD = companyPartner.SharedJD;

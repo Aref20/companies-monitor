@@ -4,6 +4,7 @@ using CompaniesMonitor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompaniesMonitor.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230928121101_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,8 +96,8 @@ namespace CompaniesMonitor.Infrastructure.Migrations
                     b.Property<int>("PartnerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Percentage")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double?>("Percentage")
+                        .HasColumnType("float");
 
                     b.Property<double>("SharedJD")
                         .HasColumnType("float");
@@ -307,15 +310,15 @@ namespace CompaniesMonitor.Infrastructure.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b61fd89-8492-4dc5-9e56-a94accac5b52",
+                            ConcurrencyStamp = "1345c936-7ebf-45c5-88af-f0fcdc57e919",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Admin",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIT3p2GGThiFh1jWVGRGS/v+Ym7ve0sK5e0wb8ufFig7XOdXCFGVDTrNCz+m36LjyA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJVxpGmnmSXRkgKVVKvRX/IFCBdgaEo+ved5fO0Z1YMhu9IkS3uHW9t2/W1qYnSHbQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dd31b473-c5bd-4263-a9a7-f8d52e638000",
+                            SecurityStamp = "6cca17ae-7e40-4d86-ac41-c1395c4be075",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
